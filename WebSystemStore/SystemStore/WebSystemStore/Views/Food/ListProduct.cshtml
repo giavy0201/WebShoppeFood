@@ -1,0 +1,199 @@
+﻿@model IPagedList<BLL.Model.Food.FoodDtos>
+@using BLL.IService
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@inject IHttpContextAccessor httpcontext
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Danh Sách Sản Phẩm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IMenuService>();
+    var serviceFood = httpcontext.HttpContext.RequestServices.GetService<IFoodService>();
+    var StoreID = httpcontext.HttpContext.Session.GetInt32("storeID");
+    var listmenu = await service.ListMenuStore((int)StoreID);
+    var listfood = await serviceFood.ListFoodByStore((int)StoreID);
+    var max = listfood.Select(x => x.Price).Max();
+}
+<style>
+    .dropdown-menu {
+        margin-left: -18px!important;
+        z-index:98;
+    }
+</style>
+<div class="main-content" style="margin-top: 70px;">
+    <div class="container py-5 bg-white">
+        <div class="title" style="text-align: center;">
+            <h1 class="m-0">Danh Sách Sản Phẩm</h1>
+        </div>
+        <div class="d-block mt-5">
+            <div class="d-block">
+                <a href="/Home/Index" class="btn btn-shoppefood text-white me-2"><i class="far fa-arrow-alt-circle-left icon-style"></i></a>
+                <button data-bs-toggle="modal" data-bs-target="#modal-create-food" class="btn btn-shoppefood text-white">Thêm Sản Phẩm</button>
+            </div>
+            <div class="py-4 my-4 ">
+                <form action="/Food/ListProduct" method="post">
+                    <div class="d-block d-xxl-flex justify-content-between">
+                        <div class="col-12 col-xxl-3">
+                            <input type="text" class="form-control" name="keyword" id="keyword-input-search" placeholder="Tên sản phẩm">
+                        </div>
+                        <div class="mt-3 mt-xxl-0 d-flex align-items-center menu-search px-3 py-2 py-xxl-0 col-12 col-xxl-2 dropdown-toggle">
+                            <a class="nav-link w-100" role="button" data-bs-toggle="dropdown" aria-expanded="false">Chọn Giá Tiền</a>
+                            <span class="ms-3 badge rounded-pill bg-danger" id="list-price-select"></span>
+                            <ul class="col-10 col-xxl-2 dropdown-menu pt-5 pb-4 px-4 mt-1" style="top:20px">
+                                <div class="d-flex align-items-center">
+                                    <div class="mx-auto" style="width:80%" id="slider" max-item-product="@max">
+                                    </div>
+                                </div>
+                                <div class="mt-5">
+                                    <label class="form-label mb-0">Giá Từ</label>
+                                    <input type="text" class="form-control mb-3" name="pricefirst" id="min-price" placeholder="Giá Từ ..." />
+                                    <label class="form-label mb-0">Giá Đến</label>
+                                    <input type="text" class="form-control mb-3" name="priceend" id="max-price" placeholder="Giá Đến ..." />
+                                </div>
+                                <select class="form-select mb-3" id="discount-food-input" name="discountPrice">
+                                    <option value="" selected>Chọn Giảm Giá</option>
+                                    <option value="1">Có Giảm Giá</option>
+                                    <option value="2">Không Giảm Giá</option>
+                                </select>
+                                <select class="form-select" id="price-sort-value" name="sortPrice">
+                                    <option value="" selected>Sắp Xếp</option>
+                                    <option value="true">Tăng Dần</option>
+                                    <option value="false">Giảm Dần</option>
+                                </select>
+                            </ul>
+                        </div>
+                        <div class="mt-3 mt-xxl-0 d-flex align-items-center menu-search px-3 py-2 py-xxl-0 col-12 col-xxl-2 dropdown-toggle">
+                            <a class="nav-link w-100" href="#" role="button" data-bs-toggle="dropdown" aria-expanded="false">Chọn Menu</a>
+                            <span class="ms-3 badge rounded-pill bg-danger" id="total-menu-select"></span>
+                            <input type="hidden" id="selected-menu" />
+                            <ul class="col-10 col-xxl-2 dropdown-menu px-3 mt-1" style="top:20px">
+                                <div>
+                                    <partial name="_selectMenu" model="listmenu">
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="mt-3 mt-xxl-0 col-12 col-xxl-2">
+                            <select class="form-select" id="status-food-input" name="statusid">
+                                <option value="" selected>Trạng Thái</option>
+                                <option value="1">Đang Hoạt Động</option>
+                                <option value="0">Ngưng Hoạt Động</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-block">
+                        <button class="btn btn-shoppefood text-white mt-3" type="submit">Xác nhận</button>
+                        <a href="@Url.Action("ListProduct", "Food")" class="btn btn-success text-white mt-3" id="remove-search">Xóa Bộ Lọc</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="list-menu bg-white table-responsive mt-0">
+            <table class="table table-striped mb-0" style="min-width:800px">
+                <thead>
+                    <tr class="align-middle" id="title-list-menu">
+                        <th type-sort="name" class="col-3 th-sort">Tên Sản Phẩm</th>
+                        <th class="col-2 text-center">Hình Ảnh</th>
+                        <th type-sort="number" class="col-1 text-center th-sort">Giá</th>
+                        <th type-sort="number" class="col-1 text-center th-sort">Giảm</th>
+                        <th type-sort="name" class="col-1 th-sort">Menu</th>
+                        <th type-sort="date" class="col-2 th-sort">Thao Tác</th>
+                        <th class="col-2"></th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    @foreach (var item in Model)
+                    {
+                        var menu = await service.DetailMenu(item.MenuID);
+                        var namemenu = menu.Name;
+                        <tr>
+                            <td>
+                                <b class="value-td">@item.Name</b><br />
+                                <span style="font-size:14px;">@item.Description</span>
+                            </td>
+                            <td class="text-center">
+                                <img style="width: 50%;" id="img-list-food" src='@Configuration["https:pathImg"]@menu.StoreID/@item.Image' alt="">
+                            </td>
+                            <td class="text-center"><span class="value-td">@String.Format("{0:0,0}",item.Price)</span><sup> đ</sup></td>
+                            <td class="text-center"><span class="value-td">@item.Discount</span> %</td>
+                            <td><span class="value-td">@namemenu</span></td>
+                            <td>
+                                @item.AdminName<br />
+                                <span class="value-td" style="font-size:14px;">@item.AdminTime.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <a data-food-id="@item.Id" data-store-id="@menu.StoreID" class="text-secondary edit-food cursor-pointer"><i class="fas fa-edit icon-table"></i></a>
+                                    @if (item.Status == 1)
+                                    {
+                                        <a data-food-id="@item.Id" class="text-success mx-3 set-status-product cursor-pointer"><i class="fa fa-toggle-on icon-table" aria-hidden="true"></i></a>
+                                    }
+                                    else if (item.Status == 0)
+                                    {
+                                        <a data-food-id="@item.Id" class="text-secondary mx-3 set-status-product cursor-pointer"><i class="fa fa-toggle-off icon-table" aria-hidden="true"></i></a>
+                                    }
+                                    <a data-food-id="@item.Id" class="text-danger delete-food cursor-pointer"><i class="fas fa-trash icon-table"></i></a>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="text-center mt-5" id="tbody-content-listfood"></div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="pagination">
+                @if (Model.PageCount > 1)
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("ListProduct", new { page,keyword = ViewBag.Keyword,menu =ViewBag.MenuID,pricefirst = ViewBag.PriceFirst,
+                priceend=ViewBag.PriceEnd,discountid = ViewBag.DiscountID,statusid = ViewBag.StatusID,priceid=ViewBag.PriceID }),
+                new PagedListRenderOptions
+                {
+                Display = PagedListDisplayMode.IfNeeded,
+                MaximumPageNumbersToDisplay = 5
+                })
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $("#keyword-input-search").val("@Html.Raw(ViewBag.Keyword)").change();
+    $("#min-price").val("@ViewBag.PriceFirst").change();
+    $("#max-price").val("@ViewBag.PriceEnd").change();
+    $("#selected-menu").val("@ViewBag.Menu").change();
+    $("#price-sort-value").val("@ViewBag.PriceID").change();
+    $("#discount-food-input").val("@ViewBag.DiscountID").change();
+    $("#status-food-input").val("@ViewBag.StatusID").change();
+    $(document).ready(function () {
+        var numberOfRows = $('tbody.align-middle tr').length;
+        if (numberOfRows == 0) {
+            $("#tbody-content-listfood").html('<h1 id="title-nodate">Không Có Dữ Liệu</h1>');
+        }
+    });
+    var storedValues = $("#selected-menu").val();
+    storedValues = JSON.parse(storedValues);
+    if (storedValues) {
+        storedValues.forEach(function (value) {
+            $('input[name="menu"][value="' + value + '"]').prop('checked', true);
+        });
+        $("#total-menu-select").html(storedValues.length + "+");
+    }
+
+    var priceMin = $("#min-price").val();
+    var priceMax = $("#max-price").val();
+    var discountID = $("#discount-food-input").val();
+    var priceID = $("#price-sort-value").val();
+    if (priceMin !== "" && priceMin != 0 || priceMax !== "" && priceMax != 0 || discountID !== "" || priceID !== "") {
+        $("#list-price-select").html("?");
+    }
+
+</script>
+<partial name="_updateFood" />
+<partial name="_deleteFood" />
+<partial name="_createFood" />
+<script src="~/js/Food.js" asp-append-version="true"></script>
+<script src="~/js/SortView.js" asp-append-version="true"></script>

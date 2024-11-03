@@ -1,0 +1,75 @@
+﻿@model IEnumerable<BLL.Model.Menu.MenuDtos>
+@using BLL.IService
+@inject IHttpContextAccessor httpcontext
+@{
+    ViewData["Title"] = "Danh Sách Menu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IMenuService>();
+}
+<div class="main-content" style="margin-top: 70px;">
+    <div class="container py-5 bg-white">
+        <div class="title" style="text-align: center;">
+            <h1 class="m-0">Danh Sách Menu</h1>
+        </div>
+        <div class="d-block mt-5">
+            <a href="/Home/Index" class="btn btn-shoppefood text-white me-2"><i class="far fa-arrow-alt-circle-left icon-style"></i></a>
+            <button data-bs-toggle="modal" data-bs-target="#modal-create-menu" class="btn btn-shoppefood text-white">Thêm Menu</button>
+        </div>
+        <div class="list-menu bg-white table-responsive">
+            <table class="table table-striped nowrap mb-0" style="min-width:800px" id="table-test">
+                <thead>
+                    <tr class="align-middle" id="title-list-menu">
+                        <th type-sort="name" class="col-4 th-sort">Tên Menu</th>
+                        <th type-sort="number" class="col-2 th-sort">Tổng Số</th>
+                        <th class="col-2">Thao Tác</th>
+                        <th type-sort="date" class="col-2 th-sort">Thời Gian</th>
+                        <th class="col-2"></th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle list-body-menu">
+                    @foreach (var item in Model)
+                    {
+                        var totlefood = await service.TotleFoodInMenu(item.Id);
+                        <tr>
+                            <td class="text-black text-uppercase" style="font-weight:600">
+                                <a href="@Url.Action("ListFoodOfMenu", "Food", new { MenuID = item.Id })" class="text-black w-100"><span class="value-td">@Html.DisplayFor(modelItem => item.Name)</span></a>
+                            </td>
+                            <td>
+                                <span class="value-td">@totlefood</span> Sản Phẩm
+                            </td>
+                            <td>
+                                @Html.DisplayFor(modelItem => item.AdminName)
+                            </td>
+                            <td>
+                                <span class="value-td">@item.AdminTime.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <a href="#" data-menu-id="@item.Id" class="text-secondary edit-menu"><i class="fas fa-edit icon-table"></i></a>
+                                    @if (item.Status == 1)
+                                    {
+
+                                        <a href="@Url.Action("SetStatusMenu", "Menu", new { MenuID = item.Id })" class="text-success mx-3"><i class="fa fa-toggle-on icon-table" aria-hidden="true"></i></a>
+                                    }
+                                    else if (item.Status == 0)
+                                    {
+                                        <a href="@Url.Action("SetStatusMenu", "Menu", new { MenuID = item.Id })" class="text-secondary mx-3"><i class="fa fa-toggle-off icon-table" aria-hidden="true"></i></a>
+                                    }
+                                    <a href="#" class="text-danger delete-menu" data-menu-id="@item.Id"><i class="fas fa-trash icon-table"></i></a>
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
+    </div>
+</div>
+<partial name="_createMenu" />
+<partial name="_updateMenu" />
+<partial name="_deleteMenu" />
+<script src="~/js/ListMenu.js" asp-append-version="true"></script>
+<script src="~/js/SortView.js" asp-append-version="true"></script>

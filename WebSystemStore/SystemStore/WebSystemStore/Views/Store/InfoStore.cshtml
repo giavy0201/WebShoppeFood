@@ -1,0 +1,44 @@
+﻿@model BLL.Model.Store.StoreDtos
+@using BLL.IService
+@inject IHttpContextAccessor httpcontext
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "InfoStore";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IProductService>();
+    var ContentName = await service.GetContentByID(Model.ContentID);
+    var time = Model.AdminTime.ToString("dd/MM/yyyy HH:mm:ss");
+}
+
+<div class="main-content" style="margin-top: 70px;">
+    <div class="container py-5 bg-white">
+        <div class="title" style="text-align: center;">
+            <h1 class="m-0">Thông Tin Cửa Hàng</h1>
+        </div>
+        <div class="d-flex mt-5 col-6">
+            <a href="/Home/Index" class="btn btn-shoppefood text-white me-3"><i class="far fa-arrow-alt-circle-left icon-style"></i></a>
+            <a class="btn btn-warning text-black update-store" data-store-id="@Model.Id"><i class="far fa-edit icon-style"></i></a>
+        </div>
+        <div style="margin-top:50px">
+            <div class="d-block d-xxl-flex">
+                <div class="col-12 col-xxl-6 mb-3 mb-xxl-0 text-center" style="height:350px;">
+                    <img src='@Configuration["https:pathImg"]@Model.Id/@Model.Image' class="img-thumbnail" style="height:350px" />
+                </div>
+                <div class="col-12 col-xxl-6 ps-0 ps-xxl-4">
+                    <label class="fs-5"><i class="fas fa-store me-3"></i>@Model.Name</label><br />
+                    <label class="mt-2 fs-5"><i class="far fa-clock me-3"></i>@Model.TimeOpen - @Model.TimeClose</label><br />
+                    <label class="mt-2 fs-5"><i class="fas fa-gifts me-3"></i>@Model.Preferential</label><br />
+                    <label class="mt-2 fs-5"><i class="far fa-star me-3"></i>@Model.StarEvaluate Đánh Giá Trên ShopeeFood</label><br />
+                    <label class="mt-2 fs-5"><i class="fas fa-location-arrow me-3"></i>@Model.Address , @Model.AddressLocation</label><br />
+                    <label class="mt-2 fs-5"><i class="fas fa-tags me-3"></i>@ContentName.Name</label><br />
+                    <label class="mt-2 fs-5"><i class="fas fa-user-edit me-3"></i>@Model.AdminName</label><br />
+                    <label class="mt-2 fs-5"><i class="fas fa-user-clock me-3"></i>@time</label><br />
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<partial name="_UpdateInfoStore" />
+<script src="~/js/InfoStore.js" asp-append-version="true"></script>

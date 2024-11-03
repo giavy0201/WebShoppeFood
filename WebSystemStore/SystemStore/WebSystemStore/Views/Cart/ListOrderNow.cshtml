@@ -1,0 +1,84 @@
+﻿@model IEnumerable<BLL.Model.Cart.CartDtos>
+
+@{
+    ViewData["Title"] = "Danh Sách Đơn Hôm Nay";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-content" style="margin-top: 70px;">
+    <div class="container py-5 bg-white">
+        <div class="title" style="text-align: center;">
+            <h1 class="m-0">Danh Sách Đơn Hôm Nay</h1>
+        </div>
+        <div class="mt-5">
+            <a href="/Home/Index" class="btn btn-shoppefood text-white me-2"><i class="far fa-arrow-alt-circle-left icon-style"></i></a>
+        </div>
+        <div class="list-menu bg-white table-responsive">
+            <table class="table table-striped mb-0" style="min-width:800px">
+                <thead>
+                    <tr class="align-middle">
+                        <th class="col-1">Mã Đơn</th>
+                        <th class="col-2">Khách Hàng</th>
+                        <th class="col-3 ">Địa Chỉ</th>
+                        <th class="col-2 ">Tài Xế</th>
+                        <th class="col-2 ">Số Điện Thoại</th>
+                        <th class="col-2"></th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <label><b>@item.Id</b></label>
+                            </td>
+                            <td>
+                                <label>Khách Hàng</label>
+                            </td>
+                            <td>
+                                <label>@item.Delivery</label>
+                            </td>
+                            <td>
+                                <label>Nguyễn Văn A</label>
+                            </td>
+                            <td>
+                                <label>@item.PhoneNumber</label>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <a href="@Url.Action("DetailCartByID", "Cart", new { CartID = item.Id })" class="btn btn-success text-white me-2"><i class="far fa-eye"></i></a>
+                                    @if(item.Status == 0)
+                                    {
+                                        <a href="@Url.Action("SetStatusOrder", "Cart", new { CartID = item.Id , Status = 1 })" class="btn btn-success text-white"><i class="fas fa-check"></i></a>
+                                        <a href="@Url.Action("SetStatusOrder", "Cart", new { CartID = item.Id , Status = 2 })" class="btn btn-danger ms-2 text-white"><i class="fas fa-times"></i></a>
+                                    }
+                                    @if(item.Status == 1)
+                                    {
+                                        <a href="@Url.Action("SetStatusOrder", "Cart", new { CartID = item.Id , Status = 3 })" class="btn btn-success text-white"><i class="fas fa-check"></i></a>
+                                    }
+                                    @if (item.Status == 2)
+                                    {
+                                        <label class="text-danger text-center status-order">Hủy Đơn</label>
+                                    }
+                                    @if (item.Status == 3)
+                                    {
+                                        <label class="text-success text-center status-order">Đã Giao</label>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="text-center mt-5" id="tbody-content-listcart"></div>
+        </div>
+    </div>
+</div>
+
+<script>
+    $(document).ready(function () {
+        var numberOfRows = $('tbody.align-middle tr').length;
+        if (numberOfRows == 0) {
+            $("#tbody-content-listcart").html('<h1 id="title-nodate">Không Có Dữ Liệu</h1>');
+        }
+    });
+</script>

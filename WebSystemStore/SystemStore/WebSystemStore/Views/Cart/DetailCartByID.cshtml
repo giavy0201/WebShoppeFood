@@ -1,0 +1,105 @@
+﻿@model IEnumerable<BLL.Model.Cart.SelectCart>
+@inject IHttpContextAccessor httpcontext
+@using BLL.IService
+
+@{
+    ViewData["Title"] = "Xem Chi Tiết Đơn Hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var StoreID = httpcontext.HttpContext.Session.GetInt32("storeID");
+    var service = httpcontext.HttpContext.RequestServices.GetService<IFoodService>();
+    var cartService = httpcontext.HttpContext.RequestServices.GetService<ICartService>();
+    int CartID = ViewBag.CodeCart;
+    var cart = await cartService.GetCartByID(CartID);
+}
+<div class="main-content" style="margin-top: 70px;">
+    <div class="container py-5 bg-white">
+        <div class="title" style="text-align: center;">
+            <h1 class="m-0">Chi Tiết Đơn Hàng @ViewBag.CodeCart</h1>
+        </div>
+        <div class="mt-5">
+            <button class="btn btn-shoppefood text-white me-2" onclick="history.back()"><i class="far fa-arrow-alt-circle-left icon-style"></i></button>
+        </div>
+        <section class="h-100 gradient-custom">
+            <div class="container pt-5">
+                <div class="row d-flex justify-content-center my-4">
+                    <div class="col-md-8">
+                        <div class="card mb-4">
+                            <div class="card-header py-3">
+                                <h5 class="mb-0">Chi Tiết Đơn Hàng</h5>
+                            </div>
+                            <div class="card-header" style="height: 40px;">
+                                <div class="d-flex mb-3 justify-content-between">
+                                    <div class="col-5 mb-lg-0">
+                                        <p>Sản Phẩm</p>
+                                    </div>
+                                    <div class="col-2 mb-lg-0">
+                                        <p>Ghi Chú</p>
+                                    </div>
+                                    <div class="col-2 mb-lg-0 text-center">
+                                        <p>Số Lượng</p>
+                                    </div>
+                                    <div class="col-2 mb-lg-0 text-center">
+                                        <p>Tổng Tiền</p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card-body">
+                                @foreach (var item in Model)
+                                {
+                                    var food = await service.DetailFood(item.FoodId);
+                                    <div class="d-flex mb-3 justify-content-between align-items-center">
+                                        <div class="col-5 mb-lg-0">
+                                            <label><b>@food.Name</b></label><br />
+                                            <label>@String.Format("{0:0,0}",item.Price)<sup>đ</sup></label>
+                                        </div>
+                                        <div class="col-2 mb-lg-0">
+                                            <label>Không</label>
+                                        </div>
+                                        <div class="col-2 mb-lg-0 text-center">
+                                            <label>@item.Quantity</label>
+                                        </div>
+                                        <div class="col-2 mb-lg-0 text-center">
+                                            <label>@String.Format("{0:0,0}",item.TotalMoney)<sup>đ</sup></label>
+                                        </div>
+                                    </div>
+                                }
+                            </div>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="card mb-4">
+                            <div class="card-header py-3">
+                                <h5 class="mb-0">Thông Tin Đơn Hàng</h5>
+                            </div>
+                            <div class="card-body">
+                                <ul class="list-group list-group-flush list-unstyled">
+                                    <li>
+                                        <label class="mt-4 mb-1">Mã Đơn : @ViewBag.CodeCart</label>
+                                    </li>
+                                    <li>
+                                        <label class="mt-4 mb-1">Tài Xế : Nguyễn Văn A / 47C1-30111</label>
+                                    </li>
+                                    <li>
+                                        <label class="mt-4 mb-1">Tên Người Đặt : Khách Hàng</label>
+                                    </li>
+                                    <li>
+                                        <label class="mt-4 mb-1">Số Điện Thoại : (84+) @cart.PhoneNumber</label>
+                                    </li>
+                                    <li>
+                                        <label class="mt-4 mb-1">Địa Chỉ : @cart.Delivery</label>
+                                    </li>
+                                    <li class="list-group-item d-flex justify-content-between align-items-center px-0 py-3">
+                                        <b>Tổng Tiền</b>
+                                        <span style="color:red;"><b>@String.Format("{0:0,0}",@ViewBag.TotalMoney)<sup>đ</sup></b></span>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </div>
+</div>

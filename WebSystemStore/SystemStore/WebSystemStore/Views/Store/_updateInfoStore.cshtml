@@ -1,0 +1,115 @@
+﻿@using BLL.IService
+@inject IHttpContextAccessor httpcontext
+@inject IConfiguration Configuration
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IStoreService>();
+    var productservice = httpcontext.HttpContext.RequestServices.GetService<IProductService>();
+    var listcity = await service.GetListCity();
+    var listcontent = await productservice.ListContents();
+    var SelectCity = new SelectList(listcity, "Id", "Name");
+    var SelectContent = new SelectList(listcontent, "Id", "Name");
+}
+<div class="modal fade" id="modal-update-infostore" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-end d-flex justify-content-end">
+                <span style="font-weight:700">Sửa Thông Tin Cửa Hàng</span>
+                <button type="button" class="btn-close" id="close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="container">
+                <form class="row" id="form-update-infostore">
+                    <div class="mt-2">
+                        <div class="d-block d-xxl-flex">
+                            <div class="from-custom-infostore me-3">
+                                <input type="hidden" id="id-store-input" name="id-menu-input">
+                                <label class="form-label" for="name-store-update-input">Tên Cửa Hàng <span class="text-danger">(**)</span></label>
+                                <div class="d-flex align-items-center h-75">
+                                    <input type="text" class="form-control" id="name-store-update-input" placeholder="Nhập Tên Cửa Hàng ..." required>
+                                </div>
+                            </div>
+                            <div class="from-custom-infostore">
+                                <label class="form-label mt-4 mt-xxl-0 mb-1">Hình Ảnh <span class="text-danger">(**)</span></label>
+                                <div class="d-flex align-items-center">
+                                    <img id="image" width="100" height="100" class="me-4" style="border-radius:50%;border:1px solid" />
+                                    <input type="file" style="display: none;" class="form-control h-25" id="img-store-update-input">
+                                    <label class="form-label" for="img-store-update-input"><span class="px-3 py-1 bg-secondary text-white">Chọn Hình Ảnh</span></label>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="d-block d-xxl-flex">
+                            <div class="from-custom-infostore me-3">
+                                <label class="form-label mt-4 mb-1" for="timeopen-store-update-input">Thời Gian Mở Cửa <span class="text-danger">(**)</span></label>
+                                <input type="text" class="form-control" id="timeopen-store-update-input" placeholder="Nhập Thời Gian : (6:00)..." required>
+                            </div>
+                            <div class="from-custom-infostore">
+                                <label class="form-label mt-4 mb-1" for="timeclose-store-update-input">Thời Gian Đóng Cửa <span class="text-danger">(**)</span></label>
+                                <input type="text" class="form-control" id="timeclose-store-update-input" placeholder="Nhập Thời Gian : (6:00)..." required>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label mb-1" for="preferential-store-update-input">Ưu Đãi</label>
+                            <input type="text" class="form-control" id="preferential-store-update-input" placeholder="Nhập Ưu Đãi ...">
+                        </div>
+
+                        <div class="d-block d-xxl-flex mt-4">
+                            <div class="from-custom-infostore me-3">
+                                <label class="form-label mb-1" for="city-store-input">Thành Phố <span class="text-danger">(**)</span></label>
+                                <select class="form-select" id="city-store-input" asp-items="SelectCity" required>
+                                    <option value="">Chọn Thành Phố</option>
+                                </select>
+                            </div>
+                            <div class="from-address-infostore me-3 mt-4 mt-xxl-0">
+                                <label class="form-label mb-1" for="district-store-input">Quận/Huyện <span class="text-danger">(**)</span></label>
+                                <select class="form-select" id="district-store-input" required>
+                                    <option value="">Chọn Quận/Huyện</option>
+                                </select>
+                            </div>
+                            <div class="from-address-infostore mt-4 mt-xxl-0">
+                                <label class="form-label mb-1" for="ward-store-input">Phường <span class="text-danger">(**)</span></label>
+                                <select class="form-select" id="ward-store-input" required>
+                                    <option value="">Chọn Phường</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="mt-4">
+                            <label class="form-label mb-1" for="address-store-update-input">Địa Chỉ <span class="text-danger">(**)</span></label>
+                            <input type="text" class="form-control" id="address-store-update-input" placeholder="Nhập Số Nhà, Tên Đường ..." required>
+                        </div>
+
+                        <div class="d-block d-xxl-flex mt-4">
+                            <div class="from-custom-infostore me-3">
+                                <label class="form-label mb-1" for="content-store-update-input">Loại Kinh Doanh <span class="text-danger">(**)</span></label>
+                                <select class="form-select" id="content-store-update-input" asp-items="SelectContent">
+                                    <option value="">Chọn Loại Kinh Doanh</option>
+                                </select>
+                            </div>
+                            <div class="from-custom-infostore mt-4 mt-xxl-0">
+                                <label class="form-label mb-1" for="status-store-input">Trạng Thái</label>
+                                <select class="form-select" id="status-store-input">
+                                    <option value="0" selected>Ngưng Nhận Đơn</option>
+                                    <option value="1" selected>Nhận Đơn</option>
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="text-center btn-modal-submit">
+                        <button type="submit" class="btn btn-shoppefood text-white">Sửa Thông Tin Cửa Hàng</button>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#img-store-update-input').on('change', function () {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+</script>
+

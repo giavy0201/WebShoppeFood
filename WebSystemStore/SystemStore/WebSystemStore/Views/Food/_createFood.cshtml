@@ -1,0 +1,96 @@
+﻿@using BLL.IService
+@inject IHttpContextAccessor httpcontext
+@inject IConfiguration Configuration
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IMenuService>();
+    var StoreID = httpcontext.HttpContext.Session.GetInt32("storeID");
+    var listmenu = await service.ListMenuStore((int)StoreID);
+    var SelectMenu = new SelectList(listmenu, "Id", "Name");
+}
+@{
+
+}
+<div class="modal fade" id="modal-create-food" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered" role="document">
+        <div class="modal-content">
+            <div class="modal-header text-end d-flex justify-content-end">
+                <span style="font-weight:700">Thêm Sản Phẩm</span>
+                <button type="button" class="btn-close" id="close-modal" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <form class="row mx-auto" id="form-update-food">
+                <div class="mt-3">
+                    <label class="form-label mb-1" for="name-food-input">Tên Sản Phẩm <span class="text-danger">(**)</span></label>
+                    <input type="text" class="form-control" id="name-food-input" placeholder="Nhập Tên Sản Phẩm ..." required>
+                    <label class="form-label mt-3 mb-1">Hình Ảnh <span class="text-danger">(**)</span></label>
+                    <div class="d-flex align-items-center">
+                        <img id="image-food-create-input" width="100" height="100" class="me-4" style="border-radius:50%;border:1px solid" />
+                        <input type="file" class="form-control d-none" id="img-food-input">
+                        <label class="form-label" for="img-food-input"><span class="px-3 py-1 bg-secondary text-white">Chọn Hình Ảnh</span></label>
+                    </div>
+                    <label class="form-label mt-3 mb-1" for="price-food-input">Giá <span class="text-danger">(**)</span></label>
+                    <input type="text" class="form-control" id="price-food-input" placeholder="Nhập Giá" required>
+                    <label class="form-label mt-3 mb-1" for="discount-food-input">Giảm Giá (%)</label>
+                    <input type="text" class="form-control" id="discount-food-input" placeholder="Nhập Giảm Giá">
+                    <label class="form-label mt-3 mb-1" for="discount-food-input">Mô Tả</label>
+                    <textarea class="form-control" id="description-food-input" rows="3" placeholder="Nhập Mô Tả"></textarea>
+                    <label class="form-label mt-3 mb-1" for="status-food-input">Thuộc Menu <span class="text-danger">(**)</span></label>
+                    <select class="col-12 form-select" id="menu-food-input" asp-items="SelectMenu" required>
+                        <option value="" selected>Chọn Menu</option>
+                    </select>
+                </div>
+                <div class="text-center btn-modal-submit">
+                    <button type="submit" class="btn btn-shoppefood text-white">Thêm Sản Phẩm</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script>
+    $('#img-food-input').on('change', function () {
+        var file = this.files[0];
+        if (file) {
+            var reader = new FileReader();
+            reader.onload = function (e) {
+                $('#image-food-create-input').attr('src', e.target.result);
+            };
+            reader.readAsDataURL(file);
+        }
+    });
+
+    $("#modal-create-food").submit(function (e) {
+        e.preventDefault();
+        var formData = new FormData();
+        var modalupdate = $('#modal-create-food');
+        formData.append('formFile', modalupdate.find('#img-food-input')[0].files[0]);
+        formData.append('name', modalupdate.find("#name-food-input").val());
+        formData.append('img', modalupdate.find("#img-food-input").val().replace(/C:\\fakepath\\/i, ''));
+        formData.append('price', modalupdate.find("#price-food-input").val());
+        formData.append('discount', modalupdate.find("#discount-food-input").val());
+        formData.append('description', modalupdate.find("#description-food-input").val());
+        formData.append('menuid', modalupdate.find("#menu-food-input").val());
+        $.ajax({
+            url: "/Food/CreateFood",
+            type: "POST",
+            contentType: "application/json",
+            data: formData,
+            contentType: false,
+            processData: false,
+            success: function (data) {
+                if (data.isSuccess === false) {
+                    $("#toastAddToCart").find(".toast-body").html(data.message);
+                    $('#modal-create-food').modal("hide");
+                    $("#toastAddToCart").attr('style', 'background-color:red')
+                    $("#toastAddToCart").toast("show");
+                } else if (data.isSuccess === true) {
+                    $("#toastAddToCart").find(".toast-body").html(data.message);
+                    $('#modal-create-food').modal("hide");
+                    $("#toastAddToCart").attr('style', 'background-color:green')
+                    $("#toastAddToCart").toast("show");
+                    setTimeout(function () {
+                        location.reload();
+                    }, 2000);
+                }
+            }
+        });
+    });
+</script>

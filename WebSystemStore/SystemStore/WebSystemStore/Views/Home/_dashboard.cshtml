@@ -1,0 +1,51 @@
+﻿<div class="row">
+    <div class="col-12 my-4">
+        <canvas id="barchart"></canvas>
+    </div>
+</div>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+
+<script type="text/javascript">
+    $(document).ready(function () {
+        $.ajax({
+            type: 'GET',
+            url: '/cart/GetTotalCart',
+            contentType: "application/json; charset=utf-8",
+            dataType: "json",
+            success: OnSuccess,
+        });
+
+        function OnSuccess(data) {
+            const ctx = document.getElementById('barchart');
+            var _data = data;
+            var _labels = [];
+
+            data[0].forEach(function (e) {
+                var day = new Date(e);
+                var options = { day: 'numeric', month: 'numeric', year: 'numeric' };
+                _labels.push(day.toLocaleDateString('vi-VN', options));
+            });
+            var _charData = _data[1];
+            new Chart(ctx, {
+                type: 'bar',
+                data: {
+                    labels: _labels,
+                    datasets: [{
+                        label: 'Tổng Số Đơn',
+                        data: _charData,
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    scales: {
+                        y: {
+                            beginAtZero: true
+                        }
+                    }
+                }
+            });
+        }
+    });
+</script>

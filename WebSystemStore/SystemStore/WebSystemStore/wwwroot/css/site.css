@@ -1,0 +1,278 @@
+body {
+    background: #f2f2f2 !important;
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+
+a {
+    text-decoration: none !important;
+}
+
+
+
+.btn-shoppefood {
+    background-color: #ee4d2d !important;
+}
+
+.wrapper {
+    display: flex;
+    width: 100%;
+    align-items: stretch;
+}
+
+#offcanvasExample {
+    background: white;
+}
+
+.btn-menu{
+    background-color:#c3c3c3!important;
+}
+
+.list-option a {
+    color: black;
+    height: 50px;
+    text-decoration: none;
+    border-bottom: 1px solid black;
+}
+
+    .list-option a:hover {
+        color: black;
+    }
+
+    .list-option a.active {
+        color: red;
+    }
+
+.content {
+    width: 100%;
+    padding: 20px;
+    min-height: 100vh;
+}
+.info-home {
+    margin-bottom: 1.5rem;
+}
+
+.content-info-home {
+    border: 1px solid #d7d7d7;
+    height: 100px;
+    border-radius: 10px;
+}
+#content-info-home-top {
+    border-bottom: none;
+    border-bottom-right-radius: unset;
+    border-bottom-left-radius: unset;
+}
+
+#content-info-home-bot {
+    border-top-right-radius: unset;
+    border-top-left-radius: unset;
+}
+
+.info-home {
+    height: 100px;
+}
+
+#info-list-food {
+    height: 100px;
+}
+
+    #info-list-food:hover {
+        box-shadow: 4px 4px 4px #ccc;
+        border-radius: 10px;
+    }
+
+#header-store-img {
+    width: 60px;
+    height: 60px;
+    border-radius: 50%;
+}
+
+.info-store-header {
+    max-width: 200px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/* test */
+.list-menu {
+    margin-top: 50px;
+}
+
+#title-list-menu {
+    height: 50px;
+    font-size: 18px;
+}
+
+.from-custom-infostore{
+    width: 50%
+}
+.from-address-infostore{
+    width:25%;
+}
+
+.pagination {
+    display: inline-block;
+}
+
+    .pagination li {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+    }
+    .pagination a {
+        color: black;
+    }
+
+        .pagination li.active {
+            background-color: #ee4d2d;
+            color: white;
+            border-radius:10px;
+        }
+.img-home-page {
+    aspect-ratio: 12/5;
+    object-fit: cover;
+}
+
+#text-title-home {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.icon-style{
+    font-size:1.2rem;
+}
+
+.search-list-food,
+.select-status-food{
+    width:50% !important;
+}
+
+#img-list-food{
+    height:100px;
+}
+#img-list-food-menu{
+    height:154px;
+}
+
+.btn-modal-submit{
+    margin-top:30px!important;
+    margin-bottom: 30px
+}
+
+.icon-table{
+    font-size:1.6rem;
+}
+
+.box-search, 
+.box-search-price 
+{
+    width: 15%;
+}
+.value-min {
+    position: absolute;
+    top: 23px;
+    left: 50%;
+    margin: 0 0 0 -20px;
+    width: 40px;
+    text-align: center;
+    display: block;
+    /* optional */
+
+    font-weight: normal;
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.value-max {
+    position: absolute;
+    top: -25px;
+    left: 50%;
+    margin: 0 0 0 -20px;
+    width: 40px;
+    text-align: center;
+    display: block;
+    /* optional */
+
+    font-weight: normal;
+    font-family: Verdana,Arial,sans-serif;
+    font-size: 14px;
+    color: #333;
+}
+
+.ui-widget-header {
+    background-color: #ee4d2d !important;
+}
+
+.price-range-both.value {
+    width: 100px;
+    margin: 0 0 0 -50px;
+    top: 20px;
+}
+
+.price-range-both {
+    display: none;
+}
+
+.value i {
+    font-style: normal;
+}
+
+.th-sort {
+    cursor: pointer;
+    -webkit-user-select: none;
+    -ms-user-select: none;
+    user-select: none;
+}
+
+.cursor-pointer {
+    cursor: pointer;
+}
+
+.status-order {
+    width:85px;
+    border: 1px solid;
+    border-radius: 10px;
+    padding: 6px 8px;
+}
+.menu-search {
+    border: 1px solid #ced4da;
+    border-radius: 0.25rem;
+}
+@media screen and (max-width : 768px) {
+    .search-list-food, .select-status-food {
+        width: 100% !important;
+    }
+}
+
+@media screen and (max-width : 1024px) {
+    #list-food {
+        max-width: 100% !important;
+        overflow-x: scroll !important;
+        display: block;
+    }
+    .from-custom-infostore,
+    .from-address-infostore {
+        width: 100%
+    }
+    #img-list-food {
+        height: 50px;
+    }
+    #img-list-food-menu {
+        height: 89px;
+    }
+    .pagination li {
+        margin: 10px 0;
+        padding: 5px 11px;
+    }
+    .box-search {
+        width: 100%;
+    }
+    .box-search-price {
+        width: 70%;
+    }
+}

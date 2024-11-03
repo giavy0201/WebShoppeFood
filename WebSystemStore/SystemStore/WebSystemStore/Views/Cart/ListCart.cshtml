@@ -1,0 +1,170 @@
+﻿@model IPagedList<BLL.Model.Cart.CartDtos>
+@using BLL.IService
+@using X.PagedList;
+@using X.PagedList.Mvc.Core;
+@using X.PagedList.Web.Common;
+@inject IHttpContextAccessor httpcontext
+@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Danh Sách Đơn Hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var maxDay = DateTime.Today;
+}
+<div class="main-content" style="margin-top: 70px;">
+    <div class="container py-5 bg-white">
+        <div class="title" style="text-align: center;">
+            <h1 class="m-0">Danh Sách Đơn Hàng</h1>
+        </div>
+        <div class="mt-5">
+            <a href="/Home/Index" class="btn btn-shoppefood text-white me-2"><i class="far fa-arrow-alt-circle-left icon-style"></i></a>
+            <div class="py-4 my-4 ">
+                <form action="/Cart/ListCart" method="post">
+                    <div class="d-block d-xxl-flex justify-content-between">
+                        <div class="mt-3 mt-xxl-0 d-flex align-items-center menu-search px-3 py-2 py-xxl-0 col-12 col-xxl-2 dropdown-toggle">
+                            <a class="nav-link w-100" role="button" data-bs-toggle="dropdown" aria-expanded="false">Bộ Lọc</a>
+                            <span class="ms-3 badge rounded-pill bg-danger" id="list-option-cart"></span>
+                            <ul class="col-10 col-xxl-2 dropdown-menu p-4 px-4 mt-1" style="top:20px">
+                                <div>
+                                    <label class="form-label mb-0">Mã Đơn</label>
+                                    <input type="text" class="form-control mb-3" name="cartid" id="order-id" placeholder="Nhập Mã Đơn" />
+                                    <label class="form-label mb-0">Địa Chỉ</label>
+                                    <input type="text" class="form-control mb-3" name="delivery" id="order-delivery" placeholder="Nhập Địa Chỉ" />
+                                    <label class="form-label mb-0">Số Điện Thoại</label>
+                                    <input type="text" class="form-control mb-3" name="phone" id="order-phone" placeholder="Nhập Số Điện Thoại" />
+                                </div>
+                            </ul>
+                        </div>
+                        <div class="mt-3 mt-xxl-0 col-12 col-xxl-2 d-flex align-items-center">
+                            <label class="me-2 me-xxl-2 col-1">Từ</label>
+                            <input class="form-control" type="date" id="order-daystart" name="daystart" max="@maxDay.ToString("yyyy-MM-dd")">
+                        </div>
+                        <div class="mt-3 mt-xxl-0 col-12 col-xxl-2 d-flex align-items-center">
+                            <label class="me-2 me-xxl-3 col-1">Đến</label>
+                            <input class="form-control" type="date" id="order-dayend" name="dayend" max="@maxDay.ToString("yyyy-MM-dd")">
+                        </div>
+                        <div class="mt-3 mt-xxl-0 col-12 col-xxl-2">
+                            <select class="form-select" id="order-status" name="statusid">
+                                <option value="" selected>Trạng Thái</option>
+                                <option value="3">Đã Giao</option>
+                                <option value="2">Bị Hủy</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="d-block">
+                        <button class="btn btn-shoppefood text-white mt-3" type="submit">Xác nhận</button>
+                        <a href="@Url.Action("ListCart", "Cart")" class="btn btn-success text-white mt-3" id="remove-search">Xóa Bộ Lọc</a>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="list-menu bg-white table-responsive">
+            <table class="table table-striped mb-0" style="min-width:800px">
+                <thead>
+                    <tr class="align-middle">
+                        <th type-sort="number" class="col-1 th-sort">Mã Đơn</th>
+                        <th type-sort="name" class="col-2 th-sort">Khách Hàng</th>
+                        <th type-sort="name" class="col-3 th-sort">Địa Chỉ</th>
+                        <th type-sort="number" class="col-2 th-sort">Số Điện Thoại</th>
+                        <th type-sort="date" class="col-2 th-sort">Vào Lúc</th>
+                        <th class="col-2"></th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <label class="value-td"><b>@item.Id</b></label>
+                            </td>
+                            <td>
+                                <label class="value-td">Khách Hàng</label>
+                            </td>
+                            <td>
+                                <label class="value-td">@item.Delivery</label>
+                            </td>
+                            <td>
+                                <label class="value-td">(84+) @item.PhoneNumber</label>
+                            </td>
+                            <td>
+                                <label class="value-td">@item.TimeOrder.ToString("dd/MM/yyyy HH:mm")</label>
+                            </td>
+                            <td>
+                                <div class="d-flex align-items-center">
+                                    <a href="@Url.Action("DetailCartByID", "Cart", new { CartID = item.Id })" class="btn btn-success me-3 text-white"><i class="far fa-eye"></i></a>
+                                    @if (item.Status == 0)
+                                    {
+                                        <label class="text-success text-center status-order">Đang Đợi</label>
+                                    }
+                                    @if (item.Status == 1)
+                                    {
+                                        <label class="text-success text-center status-order">Chuẩn Bị</label>
+                                    }
+                                    @if (item.Status == 2)
+                                    {
+                                        <label class="text-danger text-center status-order">Hủy Đơn</label>
+                                    }
+                                    @if (item.Status == 3)
+                                    {
+                                        <label class="text-success text-center status-order">Đã Giao</label>
+                                    }
+                                </div>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="text-center mt-5" id="tbody-content-listcart"></div>
+        </div>
+        <div class="d-flex justify-content-center">
+            <div class="pagination">
+                @if (Model.PageCount > 1)
+                {
+                    @Html.PagedListPager(Model, page => Url.Action("ListCart", new { page,daystart=ViewBag.DayStart,dayend=ViewBag.DayEnd,StatusID = ViewBag.Status}),
+                new PagedListRenderOptions
+                {
+                Display = PagedListDisplayMode.IfNeeded,
+                MaximumPageNumbersToDisplay = 5
+                })
+                }
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    var daystart = "@ViewBag.DayStart";
+    var dayend = "@ViewBag.DayEnd";
+    if (daystart !== null && daystart !== "") {
+        var day = new Date(daystart);
+        var offset = day.getTimezoneOffset();
+        day.setMinutes(day.getMinutes() - offset);
+        $("#order-daystart").val(day.toISOString().split('T')[0]);
+    }
+    if (dayend !== null && dayend !== "") {
+        var day = new Date(dayend);
+        var offset = day.getTimezoneOffset();
+        day.setMinutes(day.getMinutes() - offset);
+        $("#order-dayend").val(day.toISOString().split('T')[0]);
+    }
+
+    $("#order-id").val("@ViewBag.CartID").change();
+    $("#order-delivery").val("@Html.Raw(ViewBag.Delivery)").change();
+    $("#order-phone").val("@ViewBag.Phone").change();
+    $("#order-status").val("@ViewBag.Status").change();
+    $(document).ready(function () {
+        var numberOfRows = $('tbody.align-middle tr').length;
+        if (numberOfRows == 0) {
+            $("#tbody-content-listcart").html('<h1 id="title-nodate">Không Có Dữ Liệu</h1>');
+        }
+    });
+
+    var cartID = $("#order-id").val();
+    var delivery = $("#order-delivery").val();
+    var phone = $("#order-phone").val();
+    if (cartID !== "" || delivery !== "" || phone !== "") {
+        $("#list-option-cart").html("?");
+    }
+</script>
+<script src="~/js/SortView.js" asp-append-version="true"></script>

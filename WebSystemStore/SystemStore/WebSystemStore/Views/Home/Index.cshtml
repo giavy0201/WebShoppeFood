@@ -1,0 +1,328 @@
+﻿<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+@{
+    ViewData["Title"] = "Trang Chủ";
+    // Lấy HttpContext từ ViewContext
+    var httpContext = ViewContext.HttpContext;
+
+    // Lấy storeID từ session
+    var storeID = httpContext.Session.GetInt32("storeID");
+}
+@using BLL.IService
+@inject IHttpContextAccessor httpcontext
+@inject IConfiguration Configuration
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IStoreService>();
+    var serviceMenu = httpcontext.HttpContext.RequestServices.GetService<IMenuService>();
+    var serviceFood = httpcontext.HttpContext.RequestServices.GetService<IFoodService>();
+    var StoreID = httpcontext.HttpContext.Session.GetInt32("storeID");
+    var store = await service.DetailStore((int)StoreID);
+    var menu = await serviceMenu.ListMenuStore((int)StoreID);
+    var menuactive = menu.Where(x => x.Status == 1).Count();
+    var listmenu = menu.Select(x => x.Id).Distinct().Count();
+    var food = await serviceFood.ListFoodByStore((int)StoreID);
+    var foodactive = food.Where(x => x.Status == 1).Count();
+    var listfood = food.Select(x => x.Id).Distinct().Count();
+}
+<input type="hidden" id="store-id-generic" value="@store.Id" />
+<div class="main-content" style="margin-top: 70px;">
+    <div class="container bg-white py-5">
+        <div class="title pb-5" style="text-align: center;">
+            <h1 class="m-0">Chúc Bạn Một Ngày Làm Việc Vui Vẻ</h1>
+        </div>
+       
+        <div class="row d-none d-xxl-flex">
+            <div class="col-6 col-xxl-3 info-home">
+                <a href="@Url.Action("ListOrderNow", "Cart",new{StoreID = store.Id})" class="text-black w-100">
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                        <p class="m-0" id="text-title-home"><b>Đơn Đang Đợi</b></p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                        <label class="cursor-pointer" id="cart-order-xll">0 Đơn</label>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                    <p class="m-0" id="text-title-home"><b>Giờ Hoạt Động</b></p>
+                </div>
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                    <label>@store.TimeOpen - @store.TimeClose</label>
+                </div>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                    <p class="m-0" id="text-title-home"><b>Thời Gian</b></p>
+                </div>
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                    <label id="time-now"></label>
+                </div>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                    <p class="m-0" id="text-title-home"><b>Trạng Thái</b></p>
+                </div>
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                    @if (@store.Status == 1)
+                    {
+                        <a href="@Url.Action("SetStatusStore", "Store", new { StoreID = store.Id })" class="text-success"><i class="fa fa-3x fa-toggle-on" aria-hidden="true"></i></a>
+                    }
+                    else if (@store.Status == 0)
+                    {
+                        <a href="@Url.Action("SetStatusStore", "Store", new { StoreID = store.Id })" class="text-secondary"><i class="fa fa-3x fa-toggle-off" aria-hidden="true"></i></a>
+                    }
+                </div>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                    <p class="m-0" id="text-title-home"><b>Doanh Thu</b></p>
+                </div>
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                    <label id="total-cart-today-xxl">0<sup>đ</sup></label>
+                </div>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <a href="@Url.Action("ListCart", "Cart")" class="text-black w-100">
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                        <p class="m-0" id="text-title-home"><b>Tổng Số Đơn Hôm Nay</b></p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                        <label class="cursor-pointer" id="cart-order-today-xxl">0 Đơn</label>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <a href="@Url.Action("ListMenu", "Menu",null)" class="text-black w-100">
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                        <p class="m-0" id="text-title-home"><b>Tổng Số Menu</b></p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                        <label class="cursor-pointer">
+                            @listmenu Loại
+                            @if (menuactive != listmenu)
+                            {
+                                <span>( <i class="text-success fas fa-check"></i> @menuactive )</span>
+                            }
+                        </label>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <a href="@Url.Action("ListProduct", "Food",null)" class="text-black w-100">
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                        <p class="m-0" id="text-title-home"><b>Tổng Số Sản Phẩm</b></p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                        <label class="cursor-pointer">
+                            @listfood Loại
+                            @if (foodactive != listfood)
+                            {
+                                <span>( <i class="text-success fas fa-check"></i> @foodactive )</span>
+                            }
+                        </label>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="row d-flex d-xxl-none">
+            <div class="col-6 col-xxl-3 info-home">
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                    <p class="m-0" id="text-title-home"><b>Thời Gian</b></p>
+                </div>
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                    <label id="time-now-responsive"></label>
+                </div>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                    <p class="m-0" id="text-title-home"><b>Trạng Thái</b></p>
+                </div>
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                    @if (@store.Status == 1)
+                    {
+                        <a href="@Url.Action("SetStatusStore", "Store", new { StoreID = store.Id })" class="text-success"><i class="fa fa-3x fa-toggle-on" aria-hidden="true"></i></a>
+                    }
+                    else if (@store.Status == 0)
+                    {
+                        <a href="@Url.Action("SetStatusStore", "Store", new { StoreID = store.Id })" class="text-secondary"><i class="fa fa-3x fa-toggle-off" aria-hidden="true"></i></a>
+                    }
+                </div>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                    <p class="m-0" id="text-title-home"><b>Giờ Hoạt Động</b></p>
+                </div>
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                    <label>@store.TimeOpen - @store.TimeClose</label>
+                </div>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <a href="@Url.Action("ListOrderNow", "Cart",new{StoreID = store.Id})" class="text-black w-100">
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                        <p class="m-0" id="text-title-home"><b>Đơn Đang Đợi</b></p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                        <label class="cursor-pointer" id="cart-order-mobile">0 Đơn</label>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <a href="@Url.Action("ListCart", "Cart")" class="text-black w-100">
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                        <p class="m-0" id="text-title-home"><b>Tổng Số Đơn Hôm Nay</b></p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                        <label class="cursor-pointer" id="cart-order-today-mobile">0 Đơn</label>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                    <p class="m-0" id="text-title-home"><b>Doanh Thu</b></p>
+                </div>
+                <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                    <label id="total-cart-today-mobile">0<sup>đ</sup></label>
+                </div>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <a href="@Url.Action("ListMenu", "Menu",null)" class="text-black w-100">
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                        <p class="m-0" id="text-title-home"><b>Tổng Số Menu</b></p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                        <label class="cursor-pointer">
+                            @listmenu Loại
+                            @if (menuactive != listmenu)
+                            {
+                                <span>( <i class="text-success fas fa-check"></i> @menuactive )</span>
+                            }
+                        </label>
+                    </div>
+                </a>
+            </div>
+            <div class="col-6 col-xxl-3 info-home">
+                <a href="@Url.Action("ListProduct", "Food",null)" class="text-black w-100">
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-top">
+                        <p class="m-0" id="text-title-home"><b>Tổng Số Sản Phẩm</b></p>
+                    </div>
+                    <div class="d-flex align-items-center justify-content-center h-50 content-info-home" id="content-info-home-bot">
+                        <label class="cursor-pointer">
+                            @listfood Loại
+                            @if (foodactive != listfood)
+                            {
+                                <span>( <i class="text-success fas fa-check"></i> @foodactive )</span>
+                            }
+                        </label>
+                    </div>
+                </a>
+            </div>
+        </div>
+        <div class="form-group">
+            <label for="select-month">Chọn Tháng</label>
+            <select class="form-control" id="select-month">
+                @for (int i = 1; i <= 12; i++)
+                {
+                    <option value="@i">Tháng @i</option>
+                }
+            </select>
+            <label for="select-year">Chọn Năm</label>
+            <input type="number" id="select-year" class="form-control" placeholder="Nhập Năm">
+        </div>
+        <div id="selected-month-info">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Tháng</th>
+                        <th>Năm</th>
+                        <th>Tổng doanh thu</th>
+                    </tr>
+                </thead>
+                <tbody id="result-table-body">
+                    <!-- Result data will be appended here -->
+                </tbody>
+            </table>
+        </div>
+        <button id="submit-btn" class="btn btn-primary">Xác nhận</button>
+
+        @* <partial name="_dashboard" /> *@
+        <div class="col-12">
+            <div id="carouselExampleIndicators" class="carousel slide" data-bs-ride="carousel">
+                <div class="carousel-indicators">
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="0" class="active" aria-current="true" aria-label="Slide 1"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="1" aria-label="Slide 2"></button>
+                    <button type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide-to="2" aria-label="Slide 3"></button>
+                </div>
+                <div class="carousel-inner">
+                    <div class="carousel-item active">
+                        <img src='@Configuration["https:pathImg"]@StoreID/BANNER-HUYNH-HOA-02-2048x780.png' class="d-block text-center w-100 img-home-page" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="@Configuration["https:pathImg"]@StoreID/Thiet-ke-chua-co-ten-26.png" class="d-block w-100 img-home-page" alt="...">
+                    </div>
+                    <div class="carousel-item">
+                        <img src="@Configuration["https:pathImg"]@StoreID/Thiet-ke-chua-co-ten-1.jpg" class="d-block w-100 img-home-page" alt="...">
+                    </div>
+                </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="prev">
+                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleIndicators" data-bs-slide="next">
+                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                    <span class="visually-hidden">Next</span>
+                </button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+@section scripts {
+    <script>
+        $(document).ready(function () {
+            $('#submit-btn').click(function () {
+                var selectedMonth = $('#select-month').val();
+                var selectedYear = $('#select-year').val();
+
+                if (!selectedMonth || !selectedYear) {
+                    console.error('Chưa chọn tháng hoặc năm.');
+                    return;
+                }
+
+                if (!@storeID || @storeID <= 0) {
+                    console.error('storeID không hợp lệ.');
+                    return;
+                }
+
+                var url = 'https://localhost:7152/TotalMoneyForMonth?storeID=' + @storeID + '&month=' + selectedMonth + '&year=' + selectedYear;
+
+                $.ajax({
+                    url: url,
+                    type: 'GET',
+                    success: function (response) {
+                        console.log('Dữ liệu doanh thu hàng tháng:', response);
+                        if (response.isSuccess) {
+                            var totalRevenue = response.data;
+                            var resultHtml = `<tr>
+                                                        <td>${selectedMonth}</td>
+                                                        <td>${selectedYear}</td>
+                                                        <td>${totalRevenue} đ</td>
+                                                      </tr>`;
+                            $('#result-table-body').html(resultHtml);
+                        } else {
+                            console.error('Lỗi: ' + response.message);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error('Lỗi khi lấy dữ liệu doanh thu hàng tháng:', error);
+                    }
+                });
+            });
+        });
+    </script>
+}
+
+
+<script src="~/js/HomePage.js" asp-append-version="true"></script>

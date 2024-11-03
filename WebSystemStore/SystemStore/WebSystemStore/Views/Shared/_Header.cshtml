@@ -1,0 +1,176 @@
+﻿@* @using BLL.IService
+@inject IHttpContextAccessor httpcontext
+@inject IConfiguration Configuration
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IStoreService>();
+    var StoreID = httpcontext.HttpContext.Session.GetInt32("storeID");
+    var store = await service.DetailStore((int)StoreID);
+}
+<header>
+    <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 250px;">
+        <div class="offcanvas-header">
+            <img style="width: 150px;" src='@Configuration["https:pathImgWeb"]/shopeefoodvn.png' alt="">
+            <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+        </div>
+        <div class="offcanvas-body">
+            <ul class="list-unstyled list-option col">
+                <li>
+                    <a href="/Home/Index" class="d-flex align-items-center">Trang Chủ</a>
+                </li>
+                <li>
+                    <a href="@Url.Action("ListOrderNow", "Cart",new{StoreID = store.Id})" class="d-flex align-items-center text-black">Đơn Đang Đợi</a>
+
+                </li>
+                <li>
+                    @Html.ActionLink("Lịch Sử Đơn Hàng", "ListCart", "Cart",null,new{@class="d-flex align-items-center text-black"})
+                </li>
+                <li>
+                    @Html.ActionLink("Thông Tin Cửa Hàng", "InfoStore", "Store",null,new{@class="d-flex align-items-center"})
+                </li>
+                <li>
+                    @Html.ActionLink("Danh Sách Menu", "ListMenu", "Menu",null,new{@class="d-flex align-items-center"})
+                </li>
+                <li>
+                    @Html.ActionLink("Danh Sách Sản Phẩm", "ListProduct", "Food",null,new{@class="d-flex align-items-center"})
+                </li>
+            </ul>
+        </div>
+    </div>
+    <div class="navbar shadow navbar-expand-lg navbar-light bg-white position-fixed w-100 top-0" style="z-index:99">
+        <div class="container">
+            <nav class="navbar navbar-expand-lg">
+                <button class="btn btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <a class="navbar-brand" href="/Home/Index"><img class="ms-3" style="width: 150px;" src='@Configuration["https:pathImgWeb"]/shopeefoodvn.png' alt=""></a>
+            </nav>
+            <div class="store-header d-flex align-items-center">
+                <a href="@Url.Action("InfoStore", "Store",null)" class="text-black">
+                    <div class="info-store-header d-none d-xxl-block">
+                        <img id="header-store-img" src='@Configuration["https:pathImg"]@StoreID/@store.Image' alt="">
+                        <span id="header-store-name" style="font-weight: 600;" title="@store.Name">@store.Name</span>
+                    </div>
+                    <div class="info-store-header d-block d-xxl-none">
+                        <img id="header-store-img" src='@Configuration["https:pathImg"]@StoreID/@store.Image' alt="">
+                    </div>
+                </a>
+                <div class="stoer-logout">
+                    <a href="/Store/Logout" class="btn btn-outline-danger text-black ms-2" style="font-size: 14px;">
+                        <i class="fas fa-sign-out-alt"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</header>
+ *@
+ @using BLL.IService
+@inject IHttpContextAccessor httpcontext
+@inject IConfiguration Configuration
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IStoreService>();
+    var StoreID = httpcontext.HttpContext.Session.GetInt32("storeID");
+    var store = await service.DetailStore((int)StoreID);
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous">
+    <!-- Custom CSS -->
+    <style>
+        /* Offcanvas menu */
+        .offcanvas-header img {
+            width: 150px;
+        }
+
+        .btn-menu {
+            background-color: transparent;
+            border: none;
+            color: black;
+            padding: 0.5rem 1rem;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: background-color 0.3s, border-color 0.3s, color 0.3s;
+        }
+
+            .btn-menu:hover {
+                background-color: orange;
+                border-color: orange;
+                color: white;
+            }
+
+        .navbar-brand img {
+            width: 150px;
+        }
+
+        .store-header {
+            margin-left: auto;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="offcanvas offcanvas-start" tabindex="-1" id="offcanvasExample" aria-labelledby="offcanvasExampleLabel" style="width: 250px;">
+            <div class="offcanvas-header">
+                <img src='@Configuration["https:pathImgWeb"]/shopeefoodvn.png' alt="">
+                <button type="button" class="btn-close" data-bs-dismiss="offcanvas" aria-label="Close"></button>
+            </div>
+            <div class="offcanvas-body">
+                <ul class="list-unstyled list-option col">
+                    <li>
+                        <a href="/Home/Index" class="d-flex align-items-center">Trang Chủ</a>
+                    </li>
+                    <li>
+                        <a href="@Url.Action("ListOrderNow", "Cart",new{StoreID = store.Id})" class="d-flex align-items-center text-black">Đơn Đang Đợi</a>
+                    </li>
+                    <li>
+                        @Html.ActionLink("Lịch Sử Đơn Hàng", "ListCart", "Cart", null, new { @class = "d-flex align-items-center text-black" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Thông Tin Cửa Hàng", "InfoStore", "Store", null, new { @class = "d-flex align-items-center" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Danh Sách Menu", "ListMenu", "Menu", null, new { @class = "d-flex align-items-center" })
+                    </li>
+                    <li>
+                        @Html.ActionLink("Danh Sách Sản Phẩm", "ListProduct", "Food", null, new { @class = "d-flex align-items-center" })
+                    </li>
+                </ul>
+            </div>
+        </div>
+        <div class="navbar shadow navbar-expand-lg navbar-light bg-white position-fixed w-100 top-0" style="z-index:99">
+            <div class="container">
+                <nav class="navbar navbar-expand-lg">
+                    <button class="btn btn-menu" type="button" data-bs-toggle="offcanvas" data-bs-target="#offcanvasExample" aria-controls="offcanvasExample">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                    <a class="navbar-brand" href="/Home/Index"><img class="ms-3" src='@Configuration["https:pathImgWeb"]/shopeefoodvn.png' alt=""></a>
+                </nav>
+                <div class="store-header d-flex align-items-center">
+                    <a href="@Url.Action("InfoStore", "Store",null)" class="text-black">
+                        <div class="info-store-header d-none d-xxl-block">
+                            <img id="header-store-img" src='@Configuration["https:pathImg"]@StoreID/@store.Image' alt="">
+                            <span id="header-store-name" style="font-weight: 600;" title="@store.Name">@store.Name</span>
+                        </div>
+                        <div class="info-store-header d-block d-xxl-none">
+                            <img id="header-store-img" src='@Configuration["https:pathImg"]@StoreID/@store.Image' alt="">
+                        </div>
+                    </a>
+                    <div class="store-logout">
+                        <a href="/Store/Logout" class="btn btn-outline-danger text-black ms-2" style="font-size: 14px;">
+                            <i class="fas fa-sign-out-alt"></i>
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- Bootstrap JS -->
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-T3c6CoIi6uLrA9TneNEoa7RxnatzjcDSCmG1MXxSR1GAsXEV/Dwwykc2MPK8M2HN" crossorigin="anonymous"></script>
+</body>
+</html>

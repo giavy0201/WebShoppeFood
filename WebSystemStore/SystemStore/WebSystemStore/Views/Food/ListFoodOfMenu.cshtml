@@ -1,0 +1,84 @@
+﻿@model IEnumerable<BLL.Model.Food.FoodDtos>
+@inject IConfiguration Configuration
+@inject IHttpContextAccessor httpcontext
+@{
+    ViewData["Title"] = "Danh Sách Sản Phẩm "+ViewBag.NameMenu;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    var StoreID = httpcontext.HttpContext.Session.GetInt32("storeID");
+}
+<div class="main-content" style="margin-top: 70px;">
+    <div class="container py-5 bg-white">
+        <div class="title" style="text-align: center;">
+            <h1 class="m-0">Danh sách sản phẩm <span class="text-uppercase text-danger">@ViewBag.NameMenu</span></h1>
+        </div>
+        <div class="mt-5">
+            <a href="/Menu/ListMenu" class="btn btn-shoppefood text-white me-2"><i class="far fa-arrow-alt-circle-left icon-style"></i></a>
+            <button data-bs-toggle="modal" data-bs-target="#modal-create-food" class="btn btn-shoppefood text-white">Thêm Sản Phẩm</button>
+        </div>
+        <div class="list-menu bg-white table-responsive">
+            <table class="table table-striped mb-0" style="min-width:800px">
+                <thead>
+                    <tr class="align-middle" id="title-list-menu">
+                        <th class="col-3">Tên Sản Phẩm</th>
+                        <th class="col-3 text-center">Hình Ảnh</th>
+                        <th class="col-1 text-center">Giá</th>
+                        <th class="col-1 text-center">Giảm</th>
+                        <th class="col-2">Thao Tác</th>
+                        <th class="col-2"></th>
+                    </tr>
+                </thead>
+                <tbody class="align-middle">
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td>
+                                <label><b>@item.Name</b></label><br />
+                                <label style="font-size:14px;">@item.Description</label>
+                            </td>
+                            <td class="text-center">
+                                <img style="width: 50%;" id="img-list-food-menu" src='@Configuration["https:pathImg"]@StoreID/@item.Image' alt="">
+                            </td>
+                            <td class="text-center">@String.Format("{0:0,0}",item.Price)<sup>đ</sup></td>
+                            <td class="text-center">@item.Discount %</td>
+                            <td>
+                                @item.AdminName<br />
+                                <span style="font-size:14px;">@item.AdminTime.ToString("dd/MM/yyyy HH:mm:ss")</span>
+                            </td>
+                            <td>
+                                <div class="d-flex justify-content-center">
+                                    <a href="#" data-food-id="@item.Id" data-store-id="@StoreID" class="text-secondary edit-food"><i class="fas fa-edit icon-table"></i></a>
+                                    @if (item.Status == 1)
+                                    {
+                                        <a href="#" data-food-id="@item.Id" class="text-success mx-3 set-status-product"><i class="fa fa-toggle-on icon-table" aria-hidden="true"></i></a>
+                                    }
+                                    else if (item.Status == 0)
+                                    {
+                                        <a href="#" data-food-id="@item.Id" class="text-secondary mx-3 set-status-product"><i class="fa fa-toggle-off icon-table" aria-hidden="true"></i></a>
+                                    }
+                                    <a href="#" data-food-id="@item.Id" class="text-danger delete-food"><i class="fas fa-trash icon-table"></i></a>
+                                </div>
+
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+            <div class="text-center mt-5" id="tbody-content-listfood"></div>
+        </div>
+    </div>
+</div>
+<script>
+    $(document).ready(function () {
+        var numberOfRows = $('tbody.align-middle tr').length;
+        if (numberOfRows == 0) {
+            $("#tbody-content-listfood").html('<h1 id="title-nodate">Không Có Dữ Liệu</h1>');
+        }
+    });
+</script>
+<partial name="_createFoodByMenu" />
+<partial name="_updateFoodByMenu" />
+<partial name="_deleteFood" />
+<script src="~/js/Food.js" asp-append-version="true"></script>
+
