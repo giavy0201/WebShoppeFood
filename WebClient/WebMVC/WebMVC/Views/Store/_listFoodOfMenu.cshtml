@@ -1,0 +1,87 @@
+﻿@model IEnumerable<BLL.Model.ModelStoreDtos.FoodDtos>
+@inject IHttpContextAccessor httpcontext;
+@inject IConfiguration Configuration
+@inject ICommentService CommentService
+@using BLL.Model.Comment
+
+@using BLL.IService
+@using BLL.Model.ModelRequest
+@{
+    var url = httpcontext.HttpContext.Request.Path;
+    var service = httpcontext.HttpContext.RequestServices.GetService<IStoreService>();
+    // var commentService = httpcontext.HttpContext.RequestServices.GetService<ICommentService>(); // Giả sử bạn đã có service cho comment
+    // var food1 = Model.FirstOrDefault();
+    // var storeId = food1.StoreID; // Use ?. to safely access StoreId if store is null
+
+    // // Retrieve comments based on storeId
+    // var comments = storeId.HasValue
+    //     ? await CommentService.GetListCommentsByStoreId(storeId.Value)
+    //     : new List<BLL.Model.Comment.CommentDtos>();
+    var firstFood=    Model .  FirstOrDefault   (  )    ;
+    var currentComments=new  List < CommentDtos >() ;
+    var    currentStoreId    = firstFood ?.  StoreID ??0 ;
+}
+<ul style="list-style: none;">
+    @foreach (var item in Model)
+    {
+       
+
+        var food = await service.DetailFood(item.Id);
+        <div class="d-none d-xxl-block">
+        <li id="default-store" class="d-block d-xxl-flex col-6 col-xxl-12 align-items-center">
+            <img class="default-store-img" src='@Configuration["https:pathImg"]@food.StoreID/@item.Image' alt="">
+            <div class="default-store-name col">
+                <p id="name-food" class="m-0">@item.Name</p>
+                <p id="des-food" class="m-0">@item.Description</p>
+            </div>
+                @if (item.Discount != 0)
+                {
+                <span id="default-store-pricediscount">@String.Format("{0:0,0}",@item.Price) <sup>đ</sup></span>
+                }
+            <span id="default-store-price">@String.Format("{0:0,0}",@item.PriceDiscount) <sup>đ</sup></span>
+            <div><a class="btn btn-addtocart" id="default-store-add" href="@Url.Action("AddToCart", "Cart",new { @FoodID = item.Id})"><i class="fa fa-plus" aria-hidden="true"></i></a></div>
+        </li>
+        </div>
+        <div class="d-block d-xxl-none">
+        <li id="default-store">
+            <div class="d-flex align-items-center">
+                <img class="default-store-img me-3" src='@Configuration["https:pathImg"]@food.StoreID/@item.Image' alt="">
+                <div class="default-store-name col">
+                    <p id="name-food" class="m-0">@item.Name</p>
+                    <p id="des-food" class="m-0">@item.Description</p>
+                    <div class="d-flex">
+                            @if (item.Discount != 0)
+                            {
+                            <span id="default-store-pricediscount">@String.Format("{0:0,0}",@item.Price) <sup>đ</sup></span>
+                            }
+                        <span id="default-store-price">@String.Format("{0:0,0}",@item.PriceDiscount) <sup>đ</sup></span>
+                    </div>
+                </div>
+                <div class="">
+                    <a class="btn btn-addtocart" id="default-store-add" href="@Url.Action("AddToCart", "Cart",new { @FoodID = item.Id})"><i class="fa fa-plus" aria-hidden="true"></i></a>
+                </div>
+            </div>
+          
+
+        </li>
+        </div>
+       
+        
+        
+    }
+</ul>
+@* <<section class="comments-section">
+    <h3>Bình luận</h3>
+    @await Html.PartialAsync("~/Views/Comment/CommentsPage1.cshtml", new CommentsPageViewModel
+{
+    Comments = currentComments,
+    AddCommentRequest = new AddCommentRequest
+    {
+        StoreId = currentStoreId,
+        CustomerId = User.Identity?.Name,
+        StarRating = 5.0,
+        Content = string.Empty
+    }
+})
+</section> *@
+

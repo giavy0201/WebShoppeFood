@@ -1,0 +1,32 @@
+﻿@model IEnumerable<BLL.Model.ModelStoreDtos.ListMenuDtos>
+
+@using BLL.Model.Comment
+@using BLL.Model.ModelStoreDtos
+@using BLL.Model.ModelRequest
+@using BLL.IService
+@inject IHttpContextAccessor httpcontext
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IStoreService>();
+    var service1 = httpcontext.HttpContext.RequestServices.GetService<ICommentService>();
+    var StoreId = Model.FirstOrDefault().Id;
+    var currentComments = new List<CommentDtos>();
+    var listComments = StoreId != null ? await service1.GetListCommentsByStoreId(StoreId) : new List<CommentDtos>(); // Lấy danh sách bình luận theo StoreId
+}
+<div class="bg-white px-3 pt-xxl-0 py-1">
+    <div style="padding-top:20px;"></div>
+    @foreach (var item in Model)
+    {
+        var listFoods = await service.ListFoodOfMenu(item.Id);
+        
+        <div class="list-food-namemenu" MenuID="@item.Id" style="border-bottom : 1px solid #d7d7d7">
+                @item.Name
+        </div>
+        <partial name="_listFoodOfMenu" model="listFoods"></partial>
+       
+    }
+    
+   @*  <partial name="_listCommentsByStore1" model="listComments"></partial> *@
+   
+
+</div>
+

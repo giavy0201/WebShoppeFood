@@ -1,0 +1,90 @@
+﻿@model IEnumerable<BLL.Model.Cart.CartDtos>
+
+@{
+    ViewData["Title"] = "Lịch sử đơn hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h2>Lịch sử đơn hàng</h2>
+
+@if (Model != null && Model.Any())
+{
+    foreach (var order in Model)
+    {
+        <div class="card mt-4">
+            <div class="card-header">
+                <h5 class="card-title">Thông tin đơn hàng</h5>
+            </div>
+            <div class="card-body">
+                <div class="row">
+                    <div class="col-md-6">
+                        <p><strong>ID Đơn hàng:</strong> @order.Id</p>
+                        <p><strong>Ngày đặt hàng:</strong> @order.TimeOrder.ToString("dd/MM/yyyy HH:mm:ss")</p>
+                        <p><strong>Địa chỉ giao hàng:</strong> @order.Delivery</p>
+                        <p><strong>Số điện thoại:</strong> @order.PhoneNumber</p>
+                    </div>
+                    <div class="col-md-6">
+                        <p><strong>Trạng thái:</strong> @order.GetStatusLabel()</p>
+                        <label class="@order.GetStatusClass() text-center status-order">@order.GetStatusLabel()</label>
+                        <p><strong>Tổng tiền:</strong> @String.Format("{0:0,0}", CalculateTotalAmount(order.DetailCarts)) VNĐ</p>
+                    </div>
+                </div>
+            </div>
+
+            <div class="card mt-4">
+                <div class="card-header">
+                    <h5 class="card-title">Chi tiết đơn hàng</h5>
+                </div>
+                <div class="card-body">
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>FoodID</th>
+                                <th>Số lượng</th>
+                                <th>Giá</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if (order.DetailCarts != null && order.DetailCarts.Count > 0)
+                            {
+                                foreach (var item in order.DetailCarts)
+                                {
+                                    <tr>
+                                        <td>@item.FoodId</td>
+                                        <td>@item.Quantity</td>
+                                        <td>@String.Format("{0:0,0}", item.Price) VNĐ</td>
+                                    </tr>
+                                }
+                            }
+                            else
+                            {
+                                <tr>
+                                    <td colspan="3" class="text-center">Không có chi tiết đơn hàng.</td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+    }
+}
+else
+{
+    <p>Không tìm thấy thông tin lịch sử đơn hàng.</p>
+}
+
+@functions {
+    // Hàm tính tổng tiền dựa trên danh sách chi tiết đơn hàng
+    public decimal CalculateTotalAmount(List<BLL.Model.Cart.CartItemDtos> detailCarts)
+    {
+        if (detailCarts == null || detailCarts.Count == 0)
+        {
+            return 0;
+        }
+
+        // Tính tổng số tiền bằng cách lặp qua từng mặt hàng và nhân số lượng với giá
+        decimal totalAmount = detailCarts.Sum(item => item.Quantity * item.Price);
+        return totalAmount;
+    }
+}

@@ -1,0 +1,210 @@
+﻿@model BLL.Model.ModelStoreDtos.StoreDtos
+
+@inject IConfiguration configuration
+@using BLL.IService
+@using BLL.Model.Cart
+@using WebMVC.Helper
+@inject IHttpContextAccessor httpcontext
+@{
+    ViewData["Title"] = "Chi Tiết Cửa Hàng";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+@{
+    int StoreID = ViewBag.StoreID??0;
+    int FoodId = 1;
+    var CustomerId = httpcontext.HttpContext.Session.GetString("customerID");
+    var service = httpcontext.HttpContext.RequestServices.GetService<IStoreService>();
+    var addressService = httpcontext.HttpContext.RequestServices.GetService<IAddressService>();
+    var commentService = httpcontext.HttpContext.RequestServices.GetService<ICommentService>();
+    var listMenu = await service.ListMenuStore(StoreID);
+    var listcart = httpcontext.HttpContext.Session.Get<List<CartModel>>("Cart");
+    //var nameCity = await addressService.GetCityByWard(Model.WardID);
+    //string cityName = nameCity?.Name ?? "Không rõ thành phố";
+    //string cityName = "Không rõ thành phố";
+    // if (Model != null && Model.WardID != null)
+    // {
+    //     var nameCity = await addressService.GetCityByWard(Model.WardID);
+    //     cityName = nameCity?.Name ?? cityName; // Use the city name if available
+    // }
+    var nameCity = await addressService.GetCityByWard(Model.WardID);
+    var listComments = await commentService.GetListCommentsByStoreId(StoreID);
+    
+
+}
+<div class="main-content">
+    <div class="container">
+        <div class="store-info">
+            <div class="row">
+                <div class="store-img col-12 col-xxl-6" style="height:332px">
+                    <img src="@configuration["https:pathImg"]@Model.Id/@Model.Image" alt="">
+                </div>
+                <div class="store-info-default col-12 col-xxl-6" StoreId="@Model.Id">
+                    <ul id="link-store" class="mb-3">
+                        <li><a href="/">Home </a><span style="margin:0 10px;">|</span></li>
+                        <li><a href="#" class="city-name-link">@nameCity.Name</a><span style="margin:0 10px;">|</span></li>
+                        <li style="white-space: nowrap;overflow: hidden;text-overflow: ellipsis;"><a href="#">@Model.Name</a></li>
+                    </ul>
+                    <p id="shop-online" class="mb-3"> shop online </p>
+                    <p id="store-name"><b>@Model.Name</b></p>
+                    <p id="store-address" class="mb-3">@Model.Address, @Model.AddressLocation</p>
+                    <div class="mb-1">
+                        <span id="evaluate-store">[@Model.StarEvaluate Sao] đánh giá trên ShopeeFood</span><br>
+                    </div>
+                    <div class="mb-1">
+                        <a href="#">Xem lượt đánh giá trên Foody</a><br>
+                    </div>
+                    <div class="mb-1">
+                        <span id="time-store" style="color:@ViewBag.Color" statusID="@ViewBag.StatusID">@ViewBag.Status</span><span>@Model.TimeOpen - @Model.TimeClose</span><br>
+                    </div>
+                    <div class="mb-1">
+                        <span style="margin-right: 20px;">Giá</span><span id="price-store">@String.Format("{0:0,0}",ViewBag.PriceMin) - @String.Format("{0:0,0}",ViewBag.PriceMax)</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="store-menu">
+            @if (listMenu == null)
+            {
+                <h2 class="text-center my-5">Quán Đang Chuẩn Bị, Vui Lòng Quay Lại Sau</h2>
+            }
+            else
+            {
+                <div class="store-menu-top">
+                    <div class="col-12 col-xxl">Thực Đơn</div>
+                    <div class="col-4 d-none d-xxl-block" style="text-align: center;">Giỏ Hàng</div>
+                </div>
+                <div class="row d-flex justify-content-between">
+                    <partial name="_listMenuStore" model="listMenu"></partial>
+                    <div class="list-food col-12 col-xxl-5 mb-5">
+                        <partial name="_listMenuFood" model="listMenu"></partial>
+                    </div>
+                    <div class="store-cart col-12 col-xxl-4 ">
+                        @if (listcart != null)
+                        {
+                            await Html.RenderPartialAsync("~/Views/Cart/_listCart.cshtml", listcart);
+                        }
+                    </div>
+                </div>
+            }
+        </div>
+        <!-- Phần hiển thị bình luận -->
+        <div class="store-comments">
+            <h3>Bình luận</h3>
+
+            <form id="commentForm" method="post">
+                <div class="form-group">
+                    <label for="Content">Nội dung</label>
+                    <textarea id="Content" name="Content" class="form-control" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="StarRating">Đánh giá sao</label>
+                    <input id="StarRating" name="StarRating" type="number" min="1" max="5" step="1" value="5" required />
+                </div>
+                <input type="hidden" name="StoreId" value="@StoreID" />
+                <input type="hidden" name="FoodId" value="@FoodId" />
+                <input type="hidden" name="CustomerId" value="@CustomerId" />
+                <button type="submit" class="btn btn-primary">Lưu</button>
+            </form>
+
+            <!-- Danh sách bình luận -->
+            <div id="commentsList">
+                @if (listComments != null && listComments.Any())
+                {
+                    foreach (var comment in listComments)
+                    {
+                        <div class="comment-item" id="comment-@comment.Id">
+                            <p><b>@comment.FirstName @comment.LastName</b></p>
+                            <p>@comment.Content</p>
+                            <p>@comment.StarRating sao - @comment.CreatedAt.ToString("dd/MM/yyyy")</p>
+                            @* <button class="btn btn-secondary btn-sm" onclick="editComment(@comment.Id)">Sửa</button>
+                            <button class="btn btn-danger btn-sm" onclick="deleteComment(@comment.Id)">Xóa</button> *@
+                        </div>
+                    }
+                }
+                else
+                {
+                    <p>Chưa có bình luận nào.</p>
+                }
+            </div>
+        </div>
+    </div>
+</div>
+<script>
+    $('#commentForm').submit(function (e) {
+        e.preventDefault(); // Prevent the default form submission
+
+        // Tạo đối tượng formData
+        let formData = {
+            Content: $('#Content').val(),
+            FoodId: "@FoodId",
+            StarRating: $('#StarRating').val(),
+            StoreId: "@StoreID",
+            CustomerId: "@CustomerId"
+        };
+
+        // Hàm kiểm tra dữ liệu
+        function isFormDataValid(data) {
+            if (!data.Content) {
+                alert("Nội dung bình luận không được để trống.");
+                return false;
+            }
+            if (!data.FoodId) {
+                alert("FoodId không hợp lệ.");
+                return false;
+            }
+            if (!data.StarRating || isNaN(data.StarRating) || data.StarRating < 1 || data.StarRating > 5) {
+                alert("Đánh giá sao không hợp lệ. Nó phải từ 1 đến 5.");
+                return false;
+            }
+            if (!data.StoreId) {
+                alert("StoreId không hợp lệ.");
+                return false;
+            }
+            if (!data.CustomerId) {
+                alert("Bạn cần đăng nhập để bình luận.");
+                return false;
+            }
+            return true;
+        }
+
+        // Kiểm tra dữ liệu trước khi gửi
+        if (isFormDataValid(formData)) {
+            $.ajax({
+                url: '/Comments/Add',
+                type: 'POST',
+                contentType: 'application/json',
+                data: JSON.stringify(formData),
+                success: function (data) {
+                    console.log("Response from server:", data);
+                    if (data.isSuccess) {
+                        // Thêm bình luận mới vào danh sách
+                        $('#commentsList').prepend(`
+                                <div class="comment-item" id="comment-${data.data.id}">
+                                    <p><b>${data.data.firstName} ${data.data.lastName}</b></p>
+                                    <p>${data.data.content}</p>
+                                    <p>${data.data.starRating} sao - ${new Date(data.data.createdAt).toLocaleDateString()}</p>
+                                </div>
+                            `);
+                        $('#commentForm')[0].reset(); // Xóa các trường nhập
+                        location.reload(); // Tự động làm mới trang
+                    } else {
+                        alert(data.message || "Có lỗi xảy ra, vui lòng thử lại!"); // Hiển thị thông báo lỗi nếu có
+                    }
+                },
+                error: function (xhr) {
+                    // Hiển thị thông báo chi tiết hơn
+                    if (xhr.responseJSON && xhr.responseJSON.message) {
+                        alert(xhr.responseJSON.message);
+                    } else {
+                        alert("Có lỗi xảy ra, vui lòng thử lại!"); // User-friendly message
+                    }
+                    console.error("Error details:", xhr.responseText); // Log chi tiết lỗi
+                }
+            });
+        }
+    });
+</script>
+
+    </div>
+</div>
+<script src="~/js/Store.js" asp-append-version="true"></script>

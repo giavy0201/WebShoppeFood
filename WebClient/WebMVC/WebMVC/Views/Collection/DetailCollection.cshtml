@@ -1,0 +1,36 @@
+﻿@model BLL.Model.ProductDtos.CollectionDtos
+
+@{
+    ViewData["Title"] = @Model.Name;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-preferential">
+    <div class="container preferential-content">
+        <div id="preferential-title">
+                <h1>@Model.Name</h1>
+                <span id="detailCollection-content">
+                    @Model.Description
+                </span>
+        </div>
+        <div class="detailCollection-option">
+@*             <div class="detailCollection-option-right">
+                <select name="preferential-option-select">
+                    <option value="-1">Gợi ý</option>
+                    <option value="">Gần Tôi</option>
+                    <option value="">Đặt Nhiều</option>
+                    <option value="">Giảm Giá</option>
+                </select>
+            </div> *@
+        </div>
+        <div class="preferential-list-store">
+            <div class="list-store-collection row" CollectionId="@Model.Id">
+                @* list store collection page *@
+            </div>
+        </div>
+        <ul class="pagination">
+            <li></li>
+        </ul>
+    </div>
+</div>
+<script src="~/js/DeatailCollection.js" asp-append-version="true"></script>

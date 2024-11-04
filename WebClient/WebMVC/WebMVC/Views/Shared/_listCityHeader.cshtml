@@ -1,0 +1,17 @@
+﻿@using BLL.IService
+@inject IHttpContextAccessor httpcontext
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IAddressService>();
+    var listCity = await service.GetListCity();
+}
+
+<div class="header-city d-flex align-items-center ms-xxl-4 me-xxl-5 mt-3 mt-xxl-0">
+    <span class="header-city-name nav-link dropdown-toggle text-center" name="CityID" type="button" cityId="1">@* text city *@</span>
+    <ul class="navbar-nav mr-auto header-city-name-option">
+
+        @foreach (var item in listCity)
+        {
+            <li class="nav-item name-city" type="button" cityId="@item.Id">@item.Name</li>
+        }
+    </ul>
+</div>

@@ -1,0 +1,17 @@
+﻿@inject IConfiguration Configuration
+@foreach (var item in Model)
+{
+    <a href="@Url.Action("DetailStore", "Store", new { StoreID = item.Id })" class="home-store-preferential col-6 col-xxl-4" type="button" target="_blank">
+        <div id="home-store">
+            <img src='@Configuration["https:pathImg"]@item.Id/@item.Image' alt="" style="height:118px;">
+            <div class="py-2 px-1">
+                <p id="name-store" title="@item.Name"><b>@item.Name</b></p>
+                <p id="address-store" title="@item.Address , @item.AddressLocation">@item.Address , @item.AddressLocation</p>
+            </div>
+            <div class="d-flex align-items-center py-2 px-1" style="border-top: 1px solid #d7d7d7;">
+                <i class="fa fa-tags" id="icon-discount" aria-hidden="true" style="margin-left:9px;"></i>
+                <p id="preferential-promotion-store">@item.Preferential</p>
+            </div>
+        </div>
+    </a>
+}

@@ -1,0 +1,15 @@
+﻿@inject IConfiguration Configuration
+@foreach (var item in Model)
+{
+    <div class="col-6 col-xxl-3">
+        <div class="collection-card" type="button">
+            <a href="@Url.Action("DetailCollection", "Collection", new { CollectionID = item.Id })">
+                <img src="@Configuration["https:pathCollection"]/@item.Image" alt="">
+                <div id="collection-card-content">
+                    <p title="@item.Name">@item.Name</p>
+                    <span>200 địa điểm</span>
+                </div>
+            </a>
+        </div>
+    </div>
+}

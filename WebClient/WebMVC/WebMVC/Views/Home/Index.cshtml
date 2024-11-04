@@ -1,0 +1,119 @@
+﻿@inject IConfiguration Configuration
+@{
+    ViewData["Title"] = "Đặt Đồ Ăn Trực Tuyến";
+}
+<div class="main-home">
+    <div class="container main-content d-block d-xxl-flex">
+        <div class="home-option col-12 col-xxl-6">
+            <p id="home-option-title"><b>Đặt Đồ ăn , giao hàng từ 20'...</b></p>
+            <p id="home-option-title-down" class="d-none d-xxl-block">Có 73149 Địa Điểm ở TP.HCM từ 00:00-23:59</p>
+            <div class="col-xxl-10">
+                @using (Html.BeginForm("SearchPage", "Search"))
+                {
+                    <div class="input-group mb-3">
+                        <input type="text" class="form-control" name="keyword" placeholder="Tìm địa điểm, món ăn , địa chỉ..." aria-label="Recipient's username" aria-describedby="button-addon2" style="height: 50px;">
+                        <button class="btn btn-primary" type="submit" id="button-addon2" style="width : 15%;">
+                            <svg width="16" height="16" fill="currentColor" class="bi bi-search" viewBox="0 0 16 16">
+                                <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z" />
+                            </svg>
+                        </button>
+                    </div>
+                }
+                <div class="home-listoption d-none d-xxl-block">
+                    @* list option home *@
+                </div>
+                <p class="font18 mb-2 mt-3 d-none d-xxl-block">Sử dụng App ShoppeFood để có nhiều giảm giá và trải nghiệm tốt hơn</p>
+                <div class="home-option-listapp d-none d-xxl-flex">
+                    <div class="home-option-app">
+                        <a href="https://apps.apple.com/us/app/deliverynow/id1137866760" target="_blank">
+                            <img src="https://shopeefood.vn/app/assets/img/AppStore-vn.png?1afe809ef1884945ef4a05dacec7679e" alt="">
+                        </a>
+                    </div>
+                    <div class="home-option-app">
+                        <a href="https://play.google.com/store/apps/details?id=com.deliverynow" target="_blank">
+                            <img src="https://shopeefood.vn/app/assets/img/PlayStore-vn.png?a5bc23fd384a415654c9115efebb67db" alt="">
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="home-listfood col-12 col-xxl-6 px-xxl-0">
+            <div class="list-home-store" id="list-store-pre">
+                <div class="container">
+                    <div class="home-store-title">
+                        <p id="title-preferential"><b>Ưu Đãi</b></p>
+                        <a id="get-all-pre">@Html.ActionLink("Xem Tất Cả", "PreferentialPage", "Product")</a>
+                    </div>
+                    <div class="preferentialHome row">
+                        @*  List Store in home page *@
+                    </div>
+                    <div id="select-more-preferential">
+                        <span type="button">Xem thêm</span>
+                    </div>
+                </div>
+            </div>
+            <div class="list-home-store collection" id="list-collection-home">
+                <div class="container">
+                    <div class="home-store-title">
+                        <p id="title-preferential"><b>Bộ Sưu Tập</b></p>
+                        <a>@Html.ActionLink("Xem Tất Cả", "ListCollectionPage", "Collection")</a>
+                    </div>
+                    <div class="collectionHome row" style="padding-bottom:12px;">
+                        @*  List collection in home page *@
+                    </div>
+                </div>
+            </div>
+            <div class="list-home-store" id="list-store-menubot-home">
+                <div class="container">
+                    <div class="home-store-title d-flex align-items-center" style="padding-bottom: 12px;">
+                        <span type="button">Cửa Hàng</span>
+                        <select name="district" class="list-district-menubot form-select" style="width: 200px">
+                            @* list option district by city menubot *@
+                        </select>
+                    </div>
+                    <div class="list-store-menubot row">
+                        @*  list store menu bot *@
+                    </div>
+                    <div id="select-more-default">
+                        <span id="select-more-menubot" type="button">Xem thêm</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="main-bot">
+        <div class="container">
+            <div class="main-bot-content p-5" style="margin-bottom:50px;">
+                <h4 id="title-main-bot" class="col-12">Đơn hàng của bạn sẽ được bảo quản như thế nào?</h4>
+                <p id="main-bot-text" class="col-12"> ShopeeFood sẽ bảo quản đơn của bạn bằng túi & thùng để chống nắng mưa, giữ nhiệt... trên đường đi một cách tốt nhất. </p>
+                <div class="text-center">
+                    <img id="img-bot-content-first" src='@Configuration["https:pathImgWeb"]/Box-food-preservation-footer.png' alt="">
+                </div>
+            </div>
+            <div class="main-bot-content p-5 d-xxl-flex" style="margin-bottom:50px;">
+                <div class="col-12 col-xxl-8">
+                    <h4>Ứng dụng Shopee Partner</h4>
+                    <p><b>- Ứng dụng Shopee Partner</b> là ứng dụng quản lý đơn hàng cho các nhà hàng đối tác của dịch vụ đặt món tận nơi</p>
+                    <p><b>- ShopeeFood.vn</b>luôn sẵn sàng hợp tác với các nhà hàng, quán ăn, cafe... để mở rộng kinh doanh cũng như gia tăng khách hàng. Hãy kết nối vào hệ thống đặt và giao hàng để giảm bớt chi phí quản lý, vận hành, marketing, công nghệ...</p>
+                </div>
+                <div class="col-12 col-xxl-4 text-center">
+                    <img id="img-bot-content-second" src='@Configuration["https:pathImgWeb"]/banner-phone-reg-merchant.png' alt="">
+                </div>
+            </div>
+            <div class="main-bot-content p-5">
+                <div class="d-xxl-flex">
+                    <div class="col-12 col-xxl-8">
+                        <h4><span style="color: red;">ShopeeFood.vn</span> <span style="color: #0288d1;">Hợp tác nhân viên giao nhận - ShopeeFood Driver</span></h4>
+                        <p>Giúp bạn tăng thu nhập trong thời gian rảnh rỗi</p>
+                        <p><span style="color: red;">ShopeeFood</span> tìm kiếm hợp tác với các cá nhân để thực hiện việc giao hàng, chúng tôi sẽ cung cấp ứng dụng (app), 1 số dụng cụ cần thiết để bạn có thể tiếp nhận & giao hàng, kiếm thêm thu nhập</p>
+                        <p>Đăng ký tham gia tại đây hoặc gửi Email qua <span style="color: #0288d1;">tuyendung@gofast.vn</span> - hoặc gọi qua số điện thoại (028) 7109 9179.</p>
+                    </div>
+                    <div class="col-12 col-xxl-4 text-center">
+                        <img id="img-bot-content-second" src='@Configuration["https:pathImgWeb"]/bg-deliverynow-dat-mon-truc-tuyen-giao-hang-tan-noi.png' alt="">
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+

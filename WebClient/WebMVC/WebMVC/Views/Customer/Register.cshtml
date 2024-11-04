@@ -1,0 +1,96 @@
+﻿@{
+    ViewData["Title"] = "Đăng Ký";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+@{
+    var maxDay = DateTime.Today.AddYears(-5);
+}
+<div class="main-content">
+    <div class="main-login">
+        <div class="register-page">
+            <div id="login-title">
+                <p>Đăng Ký</p>
+            </div>
+            <form id="registerForm" method="post">
+                <div class="from-register">
+                    <div class="container">
+                        <div class="row">
+                            <div class="option col-6">
+                                <label id="title-input-register">Họ</label><input class="col-12" type="text" id="register-lastname" name="register-lastname" placeholder="Nhập Họ" required>
+                                <span class="register-error" id="error-message-lastname"></span>
+                            </div>
+                            <div class="option col-6">
+                                <label id="title-input-register">Tên</label>
+                                <input class="col-12" type="text" id="register-firstname" name="register-firstname" placeholder="Nhập Tên" required>
+                                <span class="register-error" id="error-message-firstname"></span>
+                            </div>
+                            <div class="option col-6">
+                                <label id="title-input-register">Ngày Sinh</label><input class="col-12" type="date" id="register-birthday" name="register-birthday" value="2010-01-01" max="@maxDay.ToString("yyyy-MM-dd")">
+                            </div>
+                            <div class="option col-6">
+                                <label id="title-input-register">Giới Tính</label>
+                                <div class="list-option-gender col-12 d-block d-xxl-flex">
+                                    <div class="col-6 col-xxl-4 p-0 d-flex">
+                                        <input class="me-2"  type="radio" id="gender-male" name="gender-option" value="0" checked><label id="gender-label" for="gender-male">Nam</label>
+                                    </div>
+                                    <div class="col-6 col-xxl-4 p-0 d-flex">
+                                        <input class ="me-2" type="radio" id="gender-female" name="gender-option" value="1"><label id="gender-label" for="gender-female">Nữ</label>
+                                    </div>
+                                    <div class="col-6 col-xxl-4 p-0 d-flex">
+                                        <input class="me-2" type="radio" id="gender-other" name="gender-option" value="2"><label id="gender-label" for="gender-other">Khác</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <label id="title-input-register">Địa Chỉ</label>
+                            <div class="option">
+                                <select class="col-12" id="register-city" name="register-city" aria-label=".form-select-sm">
+                                    <option value="" selected>Thành Phố</option>
+                                </select>
+                            </div>
+                            <div class="option">
+                                <select class="col-12" id="register-district" name="register-district" aria-label=".form-select-sm">
+                                    <option value="" selected>Quận/Huyện</option>
+                                </select>
+                            </div>
+                            <div class="option">
+                                <select class="col-12" id="register-ward" name="register-ward" aria-label=".form-select-sm">
+                                    <option value="" selected>Phường</option>
+                                </select>
+                            </div>
+                            <div class="option">
+                                <input class="col-12" id="register-location" type="text" placeholder="Địa chỉ , tên đường" name="register-location">
+                            </div>
+                            <div class="option">
+                                <label id="title-input-register">Số Điện Thoại</label>
+                                <input class="col-12" type="tel" id="register-phone" name="register-phone" placeholder="0123456789">
+                                <span class="register-error" id="error-message-phone"></span>
+                            </div>
+                            <div class="option">
+                                <label id="title-input-register">Email</label>
+                                <input class="col-12" type="text" id="register-email" name="register-email" placeholder="Nhập Địa Chỉ Email" required>
+                                <span class="register-error" id="error-message-email"></span>
+                            </div>
+                            <div class="option">
+                                <label id="title-input-register">Mật Khẩu</label>
+                                <input class="col-12" type="password" id="register-password" name="register-password" placeholder="Nhập Mật Khẩu" required>
+                                <span class="register-error" id="error-message-password"></span>
+                            </div>
+                            <div class="option">
+                                <label id="title-input-register">Xác Nhận Mật Khẩu</label>
+                                <input class="col-12" type="password" id="register-confirmpassword" name="register-confirmpassword" placeholder="Nhập Xác Nhận Mật Khẩu" required>
+                                <span class="register-error" id="error-message-confirmpassword"></span>
+                            </div>
+                            <div class="option" style="text-align : right">
+                                <label style="margin-right:10px">Hiện thị mật khẩu</label><input type="checkbox" id="register-showpass" name="register-showpass" />
+                            </div>
+                        </div>
+                    </div>
+                    <button class="btn btn-primary" id="btn-register" type="submit">Đăng Kí</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+<script src="~/js/Register.js" asp-append-version="true"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/axios/0.21.1/axios.min.js"></script>

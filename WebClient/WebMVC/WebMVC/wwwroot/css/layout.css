@@ -1,0 +1,293 @@
+﻿.renderbody {
+    margin-top: 74px;
+}
+body::-webkit-scrollbar {
+    display: none;
+}
+
+.main-header {
+    width: 100%;
+    background-color: #fff;
+    justify-content: center;
+    position: fixed;
+    z-index: 99;
+}
+
+.content-header {
+    display: block;
+}
+
+    .content-header .logo-shoppe {
+        margin-right: 40px;
+    }
+
+        .content-header .logo-shoppe img {
+            height: 40px;
+        }
+
+    .content-header .header-city {
+        position: relative;
+    }
+
+.header-city-name-option {
+    position: absolute;
+    top: 80%;
+    left: 0;
+}
+
+.content-header .header-city span {
+    width: 150px;
+    color: black;
+    padding: 5px 25px;
+    background-color: #f0f0f0;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    border: 1px solid #ebebeb;
+}
+
+.content-header .header-city ul {
+    z-index: 1;
+    margin: 0;
+    padding: 0;
+    text-align: left;
+    list-style: none;
+    background-color: white;
+    border: 1px solid #ebebeb;
+    width: 200px;
+    max-height: 400px;
+    overflow-y: scroll;
+    display: block;
+    display: none;
+}
+
+    .content-header .header-city ul::-webkit-scrollbar {
+        display: none;
+    }
+
+    .content-header .header-city ul li {
+        padding: 5px 20px;
+        font-size: 16px;
+        border-bottom: 1px solid #ebebeb;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+        .content-header .header-city ul li:hover {
+            background-color: #d8d7d7;
+        }
+
+.content-header .header-category ul {
+    margin: 0;
+    display: flex;
+    list-style: none;
+}
+
+    .content-header .header-category ul li {
+        font-weight:400;
+        padding: 20px;
+    }
+
+
+.content-header .header-search {
+    border-bottom-color: black;
+}
+
+    .content-header .header-search button {
+        padding: 4px 10px 4px 10px;
+    }
+
+
+
+.content-header .header-user {
+    padding-left: 20px;
+}
+
+    .content-header .header-user a {
+        padding: 4px 10px 4px 10px;
+    }
+
+.header-category-option .active {
+    color: red;
+    border-bottom: 2px solid red;
+}
+
+.header-user-login {
+    padding-left: 10px;
+    text-align: center;
+}
+
+    .header-user-login span {
+        width: 150px;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    .header-user-login ul {
+        z-index: 1;
+        margin: 0;
+        padding: 0;
+        position: absolute;
+        text-align: left;
+        list-style: none;
+        background-color: #f2f2f2;
+        top: 60px;
+        width: 170px;
+        display: none;
+        margin-left: 20px;
+    }
+
+        .header-user-login ul li {
+            padding: 10px;
+            border-bottom: 1px solid #ebebeb;
+            text-align: center;
+        }
+
+            .header-user-login ul li a {
+                color: #000;
+            }
+
+
+.header-user-info {
+    display: flex;
+}
+
+#header-user-img {
+    width: 35px;
+    height: 35px;
+}
+
+.header-user-name {
+    font-weight: 600;
+    margin-left: 10px;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+}
+
+    .main-footer .footer-title {
+        font-weight: 700;
+        font-size: 17px;
+    }
+
+    .main-footer .block-footer ul {
+        padding: 0;
+        list-style: none;
+    }
+
+        .main-footer .block-footer ul li a {
+            text-decoration: none;
+            font-size: 14px;
+        }
+
+.block-footer .logo-app {
+    margin-top: 20px;
+}
+
+    .block-footer .logo-app a img {
+        height: 40px;
+        width: 122px;
+    }
+
+.block-logo {
+    text-align: center;
+}
+
+    .block-logo .logo-shoppefooter a img {
+        margin-top: 40px;
+        height: 100px;
+        width: 100px;
+    }
+
+        .block-logo .logo-shoppefooter a img p {
+            font-size: 0.75rem;
+        }
+
+.block-last {
+    text-align: right;
+}
+
+    .block-last ul {
+        list-style: none
+    }
+
+        .block-last ul li {
+            margin: 0;
+            overflow: hidden;
+            text-overflow: ellipsis;
+        }
+
+            .block-last ul li a {
+                text-decoration: none;
+            }
+
+    .block-last .register a img {
+        height: 60px;
+        width: 170px;
+    }
+
+#line-footer {
+    border-bottom: 1px solid #d7d7d7;
+    margin-bottom: 40px;
+}
+
+#notification-generic {
+    position: fixed;
+    z-index: 1000;
+}
+.user-header-name {
+    display: inline-block;
+    max-width: 120px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+@media screen and (max-width: 1024px) {
+    .renderbody {
+        margin-top: 53px;
+    }
+
+    .block-last {
+        text-align: left;
+    }
+
+        .block-last ul {
+            padding : 0;
+        }
+
+            .block-last ul li {
+                font-size: 12px;
+                text-align: left;
+            }
+
+                .block-last ul li a {
+                    text-decoration: none;
+                    font-size: 12px;
+                }
+    #block-foooter-app{
+        text-align: right;
+    }
+
+    .header-category-option .active {
+        color: red;
+        border-bottom: none;
+    }
+    .content-header .header-city{
+        margin:0;
+    }
+    .content-header .header-category ul li {
+        padding-left: 0;
+        font-size: 16px;
+        font-weight: 400;
+        border-bottom: 1px solid #c7c8c9;
+    }
+        .content-header .header-category ul li:last-child {
+            border-bottom: none;
+        }
+    #header-user-img {
+        width: 30px;
+        height: 30px;
+    }
+}

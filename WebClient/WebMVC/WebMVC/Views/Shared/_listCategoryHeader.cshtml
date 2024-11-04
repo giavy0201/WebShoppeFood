@@ -1,0 +1,16 @@
+﻿@using BLL.IService
+@inject IHttpContextAccessor httpcontext
+@{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IProductService>();
+    var listCategory = await service.GetListCategory();
+}
+
+<div class="header-category col">
+    <ul class="navbar-nav mr-auto header-category-option">
+
+        @foreach (var item in listCategory)
+        {
+            <li class="nav-item py-3 py-xxl-4" type="button" CateId="@item.Id">@item.Name</li>
+        }
+    </ul>
+</div>

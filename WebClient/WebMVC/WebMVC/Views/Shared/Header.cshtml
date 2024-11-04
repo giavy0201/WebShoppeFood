@@ -1,0 +1,93 @@
+﻿@inject IHttpContextAccessor _context;
+@inject IConfiguration Configuration
+<header class="main-header shadow d-xxl-flex position-fixed top-0 bg-white">
+    <div class="container content-header py-2 py-xxl-0">
+        <nav class="navbar navbar-expand-xxl py-0 ">
+            <div class="container-fluid p-0 d-flex">
+                <a class="navbar-brand" href="/"><img style="max-width:150px;" src='@Configuration["https:pathImgWeb"]/shopeefoodvn.png' alt=""></a>
+                <div class="d-flex d-xxl-none align-items-center">
+                    <ul class="navbar-nav me-2">
+                        <li class="nav-item">
+                            <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-black" style="font-size:18px;font-weight: 400;"><i class="fa fa-fw fa-search"></i></a>
+                        </li>
+                    </ul>
+                    @if (_context.HttpContext.Session.GetString("customer") == null)
+                    {
+                        <ul class="navbar-nav me-2">
+                            <li class="nav-item">
+                                <a href="@Url.Action("Login", "Customer")" class="text-black" style="font-size:18px;font-weight: 400;"><i class="fa fa-fw fa-user"></i></a>
+                            </li>
+                        </ul>
+                    }
+                    else
+                    {
+                        <ul class="navbar-nav me-2">
+                            <li class="nav-item dropdown">
+                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                    <img id="header-user-img" src='@Configuration["https:pathImgWeb"]/user.jpg' alt="">
+                                </a>
+                                <div class="dropdown-menu position-absolute" style="left:-70px" aria-labelledby="navbarDropdown">
+                                    <a class="dropdown-item" href="@Url.Action("UpdateCustomer","Customer")">Cập Nhập Thông Tin</a>
+                                    <a class="dropdown-item" href="@Url.Action("History","Cart")">Xem lại giỏ hàng</a>
+                                    <div class="dropdown-divider"></div>
+                                    @Html.ActionLink("Đăng Xuất","Logout","Customer",null,new{@class="dropdown-item"})
+                                </div>
+                            </li>
+                        </ul>
+                    }
+                    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+                        <span class="navbar-toggler-icon"></span>
+                    </button>
+                </div>
+                <div class="collapse navbar-collapse" id="navbarSupportedContent">
+                    <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+                        <partial name="_listCityHeader"></partial>
+                        <partial name="_listCategoryHeader"></partial>
+                    </ul>
+                    <div class="align-items-center d-none d-xxl-flex">
+                        <ul class="navbar-nav me-3">
+                            <li class="nav-item">
+                                <a href="#" data-bs-toggle="modal" data-bs-target="#exampleModal" class="text-black" style="font-size:18px;font-weight: 400;"><i class="fa fa-fw fa-search"></i></a>
+                            </li>
+                        </ul>
+                        @if (_context.HttpContext.Session.GetString("customer") == null)
+                        {
+                            @* <ul class="navbar-nav mr-auto header-user-login mt-1 mt-xxl-0 mb-3 mb-xxl-0">
+                                <li class="nav-item dropdown d-flex mx-auto">
+                                    @Html.ActionLink("Đăng Nhập","Login","Customer",null,new{@class="btn mx-auto mt-3 mt-xxl-0 text-white",@style="background-color: #ee4d2d;"})
+                                </li>
+                            </ul> *@
+                            <ul class="navbar-nav mr-auto header-user-login mt-1 mt-xxl-0 mb-3 mb-xxl-0">
+                                <li class="nav-item dropdown d-flex mx-auto">
+                                    @Html.ActionLink("Đăng Nhập", "Login", "Customer", null, new { @class = "btn mx-auto mt-3 mt-xxl-0 text-white", @style = "background-color: #ee4d2d;" })
+                                </li>
+                                <li class="nav-item dropdown d-flex mx-auto">
+                                    @Html.ActionLink("Đăng Ký", "Register", "Customer", null, new { @class = "btn mx-auto mt-3 mt-xxl-0 text-white", @style = "background-color: #007bff;" })
+                                </li>
+                            </ul>
+
+                        }
+                        else
+                        {
+                            <ul class="navbar-nav mr-auto mt-3 mt-xxl-0 mb-3 mb-xxl-0">
+                                <li class="nav-item dropdown d-flex mx-auto">
+                                    <a class="nav-link dropdown-toggle d-flex align-items-center" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                        <img id="header-user-img" src='@Configuration["https:pathImgWeb"]/user.jpg' alt="">
+                                        <span class="user-header-name ms-1">@_context.HttpContext.Session.GetString("customer")</span>
+                                    </a>
+                                    <div class="dropdown-menu position-absolute" aria-labelledby="navbarDropdown">
+                                        <a class="dropdown-item" href="@Url.Action("UpdateCustomer","Customer")">Cập Nhập Thông Tin</a>
+                                        <a class="dropdown-item" href="@Url.Action("History","Cart")">Xem lại giỏ hàng</a>
+                                       
+                                        <div class="dropdown-divider"></div>
+                                        @Html.ActionLink("Đăng Xuất","Logout","Customer",null,new{@class="dropdown-item"})
+                                    </div>
+                                </li>
+                            </ul>
+                        }
+                    </div>
+                </div>
+            </div>
+        </nav>
+    </div>
+</header>

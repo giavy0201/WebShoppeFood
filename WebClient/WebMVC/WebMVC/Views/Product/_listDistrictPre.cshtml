@@ -1,0 +1,7 @@
+﻿@foreach (var item in Model)
+{
+    <div class="col-12 col-xxl-3" id="option-select">
+        <input class="district-checkbox" type="checkbox" value="@item.Id" id="District+@item.Id">
+        <label for="District+@item.Id">@item.Name</label>
+    </div>
+}

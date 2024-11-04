@@ -1,0 +1,57 @@
+﻿@inject IHttpContextAccessor _context;
+@{
+    ViewData["Title"] = "Tìm Kiếm";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<div class="main-content">
+    <div class="container preferential-content">
+        <div class="preferential-option" style="margin-top:20px;">
+            <div class="preferential-option-left">
+                <span id="preferential-option-area" type="button" style="margin-right:10px">Khu Vực</span>
+                <div class="preferential-option-left-distrist">
+                    <div class="option-list-district row">
+                        @* list district *@
+                    </div>
+                </div>
+                <span id="preferential-option-content" type="button" style="margin-right:10px">Phân Loại</span>
+                <div class="preferential-option-left-content">
+                    <div class="option-list-content row">
+                        @* list content *@
+                    </div>
+                </div>
+                @if (_context.HttpContext.Session.GetString("keyword") != null)
+                {
+                    <span class="preferential-option-keyword" keyword="@_context.HttpContext.Session.GetString("keyword")" type="button">
+                        Từ Khóa : @_context.HttpContext.Session.GetString("keyword")
+                        @Html.ActionLink("","removeKeyword","Search",null,new {@class ="btn-close",@id="btn-remove-keyword"})
+                    </span>
+                }
+            </div>
+
+            @*             <div class="preferential-option-right">
+            <select name="preferential-option-select">
+            <option value="-1">Đúng Nhất</option>
+            <option value="">Gần tôi</option>
+            <option value="">Đánh Giá</option>
+            <option value="">Bánh Chạy</option>
+            <option value="">Giao Nhanh</option>
+            </select>
+            </div> *@
+        </div>
+        <div class="preferential-list-store">
+            <div class="list-store-search row">
+                @* list-store *@
+            </div>
+        </div>
+        <ul class="pagination">
+            <li></li>
+        </ul>
+    </div>
+</div>
+<script>
+    if (window.history.replaceState) {
+        window.history.replaceState(null, null, window.location.href);
+    }
+</script>
+<script src="~/js/SearchPage.js" asp-append-version="true"></script>

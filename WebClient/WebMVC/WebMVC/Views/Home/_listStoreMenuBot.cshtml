@@ -1,0 +1,14 @@
+﻿@inject IConfiguration Configuration
+@foreach (var item in Model)
+{
+    <a class="store-default-list" href="@Url.Action("DetailStore", "Store", new { StoreID = item.Id })" target="_blank">
+        <div class="store-default">
+            <img src='@Configuration["https:pathImg"]@item.Id/@item.Image' alt="" style="height:84.5px">
+            <div id="info-store">
+                <p id="name-store-default" style="color:black" title="@item.Name"><b>@item.Name</b></p>
+                <p id="address-store-default" title="@item.Address,@item.AddressLocation">@item.Address,@item.AddressLocation</p>
+                <p id="promotion-store-default"><i class="fa fa-tags" id="icon-discount" aria-hidden="true" style="margin-left:0px;"></i><b>@item.Preferential</b></p>
+            </div>
+        </div>
+    </a>
+}

@@ -1,0 +1,30 @@
+﻿ @model List<BLL.Model.Comment.CommentDtos>
+
+@if (Model != null && Model.Any())
+{
+    <table class="table">
+        <thead>
+            <tr>
+                <th>Người dùng</th>
+                <th>Nội dung</th>
+                <th>Đánh giá sao</th>
+                <th>Ngày đăng</th>
+            </tr>
+        </thead>
+        <tbody>
+            @foreach (var comment in Model)
+            {
+                <tr>
+                    <td>@comment.LastName @comment.FirstName</td>
+                    <td>@comment.Content</td>
+                    <td>@comment.StarRating</td>
+                    <td>@comment.CreatedAt.ToString("dd/MM/yyyy")</td>
+                </tr>
+            }
+        </tbody>
+    </table>
+}
+else
+{
+    <p>Không có bình luận cho món ăn này.</p>
+}

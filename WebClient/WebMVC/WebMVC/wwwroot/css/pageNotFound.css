@@ -1,0 +1,61 @@
+﻿html,
+body {
+    width: 100%;
+    height: 100%;
+    margin: 0;
+    padding: 0;
+    background-color: #000;
+}
+
+.bg-img {
+    position: relative;
+    width: 100%;
+    height: 100%;
+    background: url(/imgWeb/main-banner.jpg);
+    background-size: cover;
+    background-color: white;
+}
+
+.content {
+    font-family: "Avenir-Next", Avenir, Helvetica, sans-serif;
+    color: #fff;
+    background-color: none;
+    z-index: 2;
+    position: absolute;
+    top: 50%;
+    -webkit-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+}
+
+#number-404 {
+    font-size: 160px;
+    margin-bottom: 0;
+    margin-top: 0;
+}
+
+h2 {
+    margin-top: 0;
+    max-width: 700px;
+    font-size: 30px;
+    width: 90%;
+}
+
+p {
+    text-align: left;
+    padding-bottom: 32px;
+}
+
+.btn-return {
+    display: inline-block;
+    border: 1px solid #aaa;
+    border-radius: 40px;
+    padding: 15px 30px;
+    margin-right: 15px;
+    margin-bottom: 10px;
+    text-decoration : none;
+    color : white;
+    &:hover {
+                color : white;
+            }
+}

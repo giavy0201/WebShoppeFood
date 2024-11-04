@@ -1,0 +1,39 @@
+﻿@{
+    ViewData["Title"] = "Đổi Mật Khẩu";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-content">
+    <div class="main-login">
+        <div class="login-page">
+            <div id="login-title">
+                <p>Đổi Mật Khẩu</p>
+            </div>
+            <form action="/Account/ForgotPassword/Change" id="changeforgot-form" method="post">
+                <div class="from-register">
+                    <div class="option">
+                        <span style="color : red" type="hidden" id="error-message">@ViewBag.Error</span>
+                    </div>
+                    <label id="notification-login"></label>
+                    <input type="hidden" name="code-password" placeholder="Code Reset Password" value="@ViewBag.CodeForgot">
+                    <div class="option">
+                        <label id="title-input-register">Mật Khẩu</label>
+                        <input class="col-12" type="password" name="new-password" id="new-password" placeholder="Mật Khẩu Mới" required>
+                        <span class="register-error" id="error-message-password"></span>
+                    </div>
+                    <div class="option">
+                        <label id="title-input-register">Xác Nhận Mật Khẩu</label>
+                        <input class="col-12" type="password" name="confirm-password" id="confirm-password" placeholder="Xác Nhận Mật Khẩu" required>
+                        <span class="register-error" id="error-message-confirmpassword"></span>
+                    </div>
+                    <div class="option" style="text-align : right">
+                        <label style="margin-right:10px">Hiện thị mật khẩu</label><input type="checkbox" id="register-showpass" name="register-showpass" />
+                    </div>
+                    <button class="btn btn-primary" id="btn-register" type="submit">Đổi Mật Khẩu</button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+<script src="~/js/ChangeForgot.js" asp-append-version="true"></script>
+

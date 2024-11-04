@@ -1,0 +1,35 @@
+﻿@{
+    ViewData["Title"] = "Đăng Nhập";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-content">
+    <div class="main-login">
+        <div class="login-page">
+            <div id="login-title">
+                <p>Đăng Nhập</p>
+            </div>
+            <div class="login-with-social">
+                <div class="login-social">
+                    <button id="login-fb">Đăng Nhập Bằng Facebook</button>
+                </div>
+                <div class="login-social">
+                    <button id="login-gmail">Đăng Nhập Bằng Gmail</button>
+                </div>
+            </div>
+            <p id="title-login">Hãy đăng nhập bằng tài khoản của bạn</p>
+            <form action="/Customer/Login" id="form-login" method="post">
+                <div class="from-login">
+                    <label id="notification-login"></label>
+                    <input type="text" name="login-name" id="login-name" placeholder="Nhập Email" required>
+                    <span class="register-error" id="error-message-email"></span>
+                    <input type="password" name="login-password" id="login-password" placeholder="Nhập Mật Khẩu" required>
+                    <span style="color : red" type="hidden" id="error-message">@ViewBag.Error</span>
+                    <button class="btn btn-primary" type="submit" id="btn-login">Đăng Nhập</button>
+                </div>
+            </form>
+            @Html.ActionLink("Bạn Chưa Có Tài Khoản?","Register","Customer")
+            <div id="forgetpassword">@Html.ActionLink("Quên Mật Khẩu","ForgotPassword","Customer")</div>
+        </div>
+    </div>
+</div>
+<script src="~/js/Login.js" asp-append-version="true"></script>

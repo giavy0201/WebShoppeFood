@@ -1,0 +1,690 @@
+html {
+    font-size: 14px;
+    scroll-behavior: smooth;
+}
+
+    html a {
+        text-decoration: none;
+    }
+
+@media (min-width: 768px) {
+    html {
+        font-size: 16px;
+    }
+}
+
+.btn:focus, .btn:active:focus, .btn-link.nav-link:focus, .form-control:focus, .form-check-input:focus {
+    box-shadow: 0 0 0 0.1rem white, 0 0 0 0.25rem #258cfb;
+}
+
+html {
+    position: relative;
+    min-height: 100%;
+}
+
+body {
+    margin-bottom: 60px;
+    background-color: #f2f2f2 !important
+}
+
+
+/*Store*/
+* {
+    margin: 0;
+    padding: 0;
+}
+
+.store-info {
+    margin-top: 50px;
+    border-bottom: 1px solid #d7d7d7;
+}
+
+.store-img > img {
+    width: 90%;
+    height: 90%;
+}
+
+#icon-discount {
+    color: red;
+    font-size: 15px;
+    margin-left: 6px;
+    margin-right: 10px;
+}
+
+.store-info-default {
+    margin-bottom: 40px;
+}
+
+#link-store {
+    padding: 0;
+    margin-bottom: 20px;
+    display: flex;
+    list-style: none;
+    color: #187caa;
+    white-space: nowrap;
+}
+
+#shop-online {
+    margin: 0;
+    font-size: 14px;
+    text-transform: uppercase;
+    color: #959595;
+}
+
+#store-name {
+    margin: 0;
+    font-size: 24px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#store-address {
+    margin: 0;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#time-store {
+    margin-right: 20px;
+}
+
+#price-store {
+    color: #959595;
+}
+
+.store-menu-top {
+    font-size: 18px;
+    color: #ee4d2d;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin: 10px 0;
+    display: flex;
+}
+
+.list-menu {
+    display: grid;
+    text-transform: uppercase;
+    font-size: 15px;
+    height: 100%;
+}
+
+    .list-menu span {
+        font-size: 14px;
+        font-weight: 600;
+        padding:10px 5px;
+        margin: 5px 0 5px 0;
+    }
+        .list-menu span:hover {
+            background-color: #d8d7d7;
+        }
+
+#food-input {
+    width: 100%;
+}
+
+.list-food-namemenu {
+    padding: 0 10px;
+    padding-bottom:20px;
+    margin-bottom: 12px;
+    color: #6d6f71;
+    text-transform: uppercase;
+}
+
+#default-store {
+    padding: 10px;
+}
+
+    .list-food ul {
+        padding: 0;
+    }
+
+.default-store-img {
+    width: 90px;
+    height: 90px;
+}
+
+.default-store-name {
+    margin-left: 30px;
+    padding-right: 10px;
+}
+
+#name-food {
+    font-size: 16px;
+    font-weight: 700;
+}
+
+#des-food {
+    font-size: 14px;
+}
+
+#default-store-price {
+    font-size: 16px;
+    font-weight: 700;
+    color: #0288d1;
+    margin-right: 20px;
+    margin-left: 10px;
+}
+
+#default-store-pricediscount {
+    font-size: 14px;
+    font-weight: 500;
+    color: #6d6f71;
+    margin-left: 10px;
+    text-decoration-line: line-through;
+}
+
+#btn-checkout {
+    width: 100%;
+    height: 40px;
+    background-color: red;
+    border-radius: 10px;
+    color: #fff;
+}
+.btn-addtocart {
+    font-size: 10px!important;
+    color: white !important;
+    background-color: #ee4d2d !important;
+}
+
+.table #name-food {
+    width: 200px;
+}
+
+/*PreferentialPage*/
+
+.preferential-content {
+    position: relative;
+}
+
+.preferential-option {
+    display: flex;
+    border-bottom: 1px solid #d7d7d7;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+}
+
+#preferential-option-area {
+    padding: 10px;
+    border: 1px solid #d7d7d7;
+    border-radius: 5px;
+}
+
+
+.preferential-option-left-distrist {
+    z-index: 1;
+    width: 60%;
+    position: absolute;
+    background-color: white;
+    padding: 20px;
+    margin-top: 10px;
+    border:1px solid #959595;
+    border-radius:10px;
+    display: none;
+}
+
+    .preferential-option-left-distrist label {
+        padding: 5px;
+        font-size: 16px;
+    }
+
+#preferential-title {
+    padding: 50px 0;
+    text-align: center;
+}
+
+.preferential-option-right {
+    position: absolute;
+    right: 0;
+}
+
+.preferential-store {
+    margin-bottom: 24px;
+}
+
+#preferential-store-info {
+    border: 1px solid #d7d7d7;
+    border-radius: 5px;
+}
+
+    #preferential-store-info:hover {
+        box-shadow: 4px 4px 4px #ccc;
+    }
+
+.preferential-store img {
+    width: 100%;
+}
+
+#preferential-name-store {
+    margin: 0;
+    padding: 0 5px 0 5px;
+    color: black;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#preferential-address-store {
+    margin: 0;
+    font-size: 12px;
+    padding: 0 5px 0 5px;
+    color: #959595;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#preferential-promotion-store {
+    margin: 0;
+    color: #187caa;
+    font-size: 13px;
+    font-weight: 700;
+    padding: 0 5px 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    margin-bottom: 4px;
+}
+
+.pagination {
+    display: inline-block;
+    justify-content: center;
+    margin: 26px 0 50px 0;
+}
+
+    .pagination li {
+        color: black;
+        float: left;
+        padding: 8px 16px;
+        text-decoration: none;
+        transition: background-color .3s;
+    }
+
+    .pagination .active {
+        background-color: #ee4d2d;
+        color: white;
+        border-radius: 5px;
+    }
+
+#preferential-option-content {
+    padding: 10px;
+    border: 1px solid #d7d7d7;
+    border-radius: 5px;
+}
+
+
+.preferential-option-left-content {
+    z-index: 1;
+    width: 60%;
+    position: absolute;
+    background-color: white;
+    padding: 20px;
+    margin-top: 10px;
+    border: 1px solid #959595;
+    border-radius: 10px;
+    display: none;
+}
+
+    .preferential-option-left-content label {
+        padding: 5px;
+        font-size: 16px;
+    }
+
+.preferential-option-keyword {
+    padding: 10px;
+    border: 1px solid #d7d7d7;
+    border-radius: 5px;
+}
+
+.btn-delete-tag {
+    background-color: red;
+    width: 20px;
+    height: 20px;
+    border-radius: 50%;
+    text-align: center;
+    line-height: 20px;
+    color: white;
+}
+/*detailCollection*/
+.detailCollection-option {
+    display: flex;
+    border-bottom: 1px solid #d7d7d7;
+    padding-bottom: 20px;
+    margin-bottom: 20px;
+    justify-content: right;
+}
+
+
+
+
+/*#detailCollection-content {
+    white-space: pre-line;
+    overflow-wrap: break-word;
+}
+
+
+/*Collection*/
+.collection-title {
+    text-align: center;
+    padding-top: 30px;
+}
+
+    .collection-title h2 {
+        margin: 20px 0;
+    }
+
+.list-collection {
+    margin-top: 50px;
+}
+
+.list-collection-page {
+    padding-top: 50px;
+    border-top: 1px solid #d7d7d7;
+}
+
+.collection-card {
+    border-radius: 10px;
+    border: 1px solid #ccc;
+    margin-bottom: 20px;
+}
+
+    .collection-card:hover {
+        box-shadow: 4px 4px 4px #ccc;
+    }
+
+    .collection-card img {
+        width: 100%;
+        border-radius: 10px 10px 0 0;
+    }
+
+#collection-card-content {
+    padding: 0 10px;
+}
+
+    #collection-card-content p {
+        font-weight: 600;
+        margin-bottom: 10px;
+        color: #000;
+        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;
+    }
+
+    #collection-card-content span {
+        color: #0288d1;
+    }
+
+/*Login*/
+.main-login {
+    width: 600px;
+    margin: auto;
+}
+
+.login-page {
+    margin: 50px 12px 0 12px;
+    padding: 30px;
+    background-color: white;
+}
+
+#login-title p {
+    text-align: center;
+    color: #000;
+    font-weight: 500;
+    font-size: 24px;
+}
+
+.login-with-social {
+    text-align: center;
+}
+
+.login-social button {
+    width: 100%;
+    height: 40px;
+    margin-bottom: 20px;
+    color: #fff;
+    border-radius: 10px;
+    border: 0;
+}
+
+#login-phone {
+    background-color: #329900;
+}
+
+#login-fb {
+    background-color: #187caa;
+}
+
+#login-gmail {
+    background-color: #ff5252;
+}
+
+.from-login input {
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: none;
+    margin-top: 20px;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.from-login button {
+    width: 100%;
+    height: 40px;
+    margin-top: 20px;
+    margin-bottom: 20px;
+}
+
+#saveLogin {
+    height: 20px;
+    width: 20px;
+}
+
+.login-savelogin {
+    float: left;
+}
+
+.login-account-option label {
+    margin-left: 5px;
+}
+
+#forgetpassword {
+    float: right;
+}
+
+    #forgetpassword a {
+        text-decoration: none;
+    }
+
+#notification-login {
+    color: #fff;
+    background-color: red;
+    width: 100%;
+    border: 1px solid red;
+    display: none;
+    margin-bottom: 3px;
+}
+
+#title-login {
+    text-align: center;
+    margin: 0;
+}
+/* register */
+.register-page {
+    margin: 50px 12px 0 12px;
+    padding: 30px;
+    background-color: white;
+}
+
+#title-input-register {
+    margin-right: 5px;
+    margin-bottom: 10px;
+}
+
+.option {
+    margin-bottom: 20px;
+}
+
+
+#notifical-register {
+    padding-left: 5px;
+    color: red;
+}
+
+#btn-register {
+    width: 100%;
+    height: 40px;
+}
+
+.register-error {
+    color: red;
+    display: none;
+}
+
+.from-register input {
+    outline: 0;
+    background: #f2f2f2;
+    border: 0;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.from-register select {
+    outline: 0;
+    background: #f2f2f2;
+    border: 0;
+    padding: 15px;
+    box-sizing: border-box;
+}
+
+.list-option-gender {
+    margin-top: 20px;
+}
+
+/*#gender-label {
+    margin-right: 20px;
+    margin-left: 10px;
+}*/
+
+#btn-list-cart {
+    display: flex;
+}
+
+    #btn-list-cart a {
+        color: white;
+    }
+
+
+#title-nodata {
+    text-align: center;
+}
+
+#btn-remove-keyword {
+    position: absolute;
+    top: 13px;
+    font-size: 10px;
+    background-color: #6d6f71;
+    border-radius: 50%;
+    text-align: center;
+}
+
+#cart-deatail-store {
+    max-height: 400px;
+    overflow-y: scroll;
+    display: block;
+}
+    #cart-deatail-store::-webkit-scrollbar {
+        display: none;
+    }
+
+.card-body input {
+    outline: 0;
+    background: #f2f2f2;
+    width: 100%;
+    border: none;
+    padding: 15px;
+    box-sizing: border-box;
+}
+#preferential-store-img{
+    height:190px;
+}
+@media screen and (max-width : 1024px) {
+    #preferential-store-img {
+        height: 120px;
+    }
+    .preferential-option-left-distrist, .preferential-option-left-content {
+        width: 60%;
+        max-height: 300px;
+        overflow: scroll;
+    }
+
+    .option-list-district,
+    .option-list-content {
+        width: 95%;
+    }
+
+    .list-food {
+        margin-top: 30px !important;
+    }
+
+    #store-name {
+        white-space: unset;
+        overflow: unset;
+        text-overflow: unset;
+    }
+
+    #store-address {
+        font-size: 14px;
+        white-space: unset;
+        overflow: unset;
+        text-overflow: unset;
+    }
+
+    .default-store-name {
+        margin-left: 0;
+    }
+
+    #name-food {
+        width: 100%;
+        font-size: 16px;
+        font-weight: 700;
+    }
+
+    #des-food {
+        font-size: 13px;
+/*        white-space: nowrap;
+        overflow: hidden;
+        text-overflow: ellipsis;*/
+    }
+
+    #default-store-price {
+        font-size: 14px;
+        margin: 0;
+    }
+
+    #default-store-pricediscount {
+        font-size: 12px;
+        margin: 0;
+        margin-right: 6px;
+    }
+
+    .store-cart {
+        margin-top: 30px !important;
+    }
+
+    .list-option-gender {
+        margin: 0;
+    }
+
+    #default-store {
+        border-bottom: none;
+    }
+    #list-menufood-deatail {
+        border-bottom: 1px solid #d7d7d7;
+    }
+    #default-store{
+        padding: 10px 0;
+    }
+}

@@ -1,0 +1,5 @@
+﻿@Html.ActionLink("ALL", "SearchPage", "Search", null, new { @class = "option" })
+@foreach (var item in Model)
+{
+    <a class="option" href="@Url.Action("SearchPage", "Search", new {@ContentID = @item.Id})">@item.Name</a>
+}

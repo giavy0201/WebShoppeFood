@@ -1,0 +1,109 @@
+﻿@model BLL.Model.Customer.UpdateCustomerRequest
+@{
+    ViewData["Title"] = "Cập nhập thông tin";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>Cập nhập thông tin khách hàng</h1>
+<div class="container">
+    <form id="updateCustomerForm" action="UpdateCustomer" method="post" class="form-horizontal">
+        <div class="form-group row">
+            <label for="Email" class="col-sm-2 col-form-label">Email</label>
+            <div class="col-sm-10">
+                <input type="email" id="Email" name="Email" class="form-control" value="@Model.Email" readonly>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="FirstName" class="col-sm-2 col-form-label">Tên</label>
+            <div class="col-sm-10">
+                <input type="text" id="FirstName" name="FirstName" class="form-control" value="@Model.FirstName" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="LastName" class="col-sm-2 col-form-label">Họ</label>
+            <div class="col-sm-10">
+                <input type="text" id="LastName" name="LastName" class="form-control" value="@Model.LastName" required>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Birthday" class="col-sm-2 col-form-label">Ngày sinh</label>
+            <div class="col-sm-10">
+                <input type="date" id="Birthday" name="Birthday" class="form-control" value="@Model.Birthday?.ToString("yyyy-MM-dd")">
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Gender" class="col-sm-2 col-form-label">Giới tính</label>
+            <div class="col-sm-10">
+                <select id="Gender" name="Gender" class="form-control">
+                    <option value="0" selected="@(Model.Gender == 0)">Nam</option>
+                    <option value="1" selected="@(Model.Gender == 1)">Nữ</option>
+                    <option value="2" selected="@(Model.Gender == 2)">Khác</option>
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+            <label for="Location" class="col-sm-2 col-form-label">Nơi ở</label>
+            <div class="col-sm-10">
+                <input type="text" id="Location" name="Location" class="form-control" value="@Model.Location">
+            </div>
+        </div>
+          <div class="form-group row">
+        <label for="Image" class="col-sm-2 col-form-label">Image</label>
+        <div class="col-sm-10">
+        <input type="text" id="Image" name="Image" class="form-control" value="@Model.Image">
+        </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-sm-10 offset-sm-2">
+                <button type="submit" onclick="submitUpdateForm(event)" class="btn btn-primary">Cập nhập</button>
+            </div>
+        </div>
+    </form>
+
+    @if (ViewBag.Message != null)
+    {
+        <div class="alert alert-info" role="alert">
+            @ViewBag.Message
+        </div>
+    }
+</div>
+<script>
+    function submitUpdateForm(event) {
+        event.preventDefault();
+        // Kiểm tra hợp lệ của dữ liệu
+        var isValid = validateUpdateForm();
+
+        if (isValid) {
+            // Lấy dữ liệu từ form và chuyển đổi thành đối tượng JSON
+            var formData = new FormData(document.getElementById("updateCustomerForm"));
+            var jsonData = {};
+            formData.forEach((value, key) => {
+                jsonData[key] = value;
+            });
+
+            // Gửi yêu cầu cập nhật thông tin khách hàng qua AJAX
+            var xhr = new XMLHttpRequest();
+            xhr.open("POST", document.getElementById("updateCustomerForm").action);
+            xhr.setRequestHeader("Content-Type", "application/json");
+            xhr.onload = function () {
+                if (xhr.status === 200) {
+                    // Xử lý phản hồi từ máy chủ
+                    var response = JSON.parse(xhr.responseText);
+                    alert(response.message); // Hiển thị thông báo phản hồi
+                } else {
+                    // Xử lý lỗi
+                    alert("Cập nhâp thành công.");
+                    window.location.reload();
+                }
+            };
+            xhr.send(JSON.stringify(jsonData));
+        }
+        return false;
+    }
+
+    function validateUpdateForm() {
+        // Thực hiện kiểm tra hợp lệ của dữ liệu
+        // Trả về true nếu dữ liệu hợp lệ, ngược lại trả về false
+        return true; // Đây là ví dụ, bạn cần thay thế bằng mã kiểm tra hợp lệ thực sự
+    }
+</script>

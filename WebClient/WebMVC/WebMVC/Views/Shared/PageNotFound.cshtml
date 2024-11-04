@@ -1,0 +1,20 @@
+﻿@{
+    ViewData["Title"] = "PageNotFound";
+}
+
+<link rel="stylesheet" href="~/css/pageNotFound.css" asp-append-version="true" />
+<link rel="stylesheet" href="~/lib/bootstrap/dist/css/bootstrap.min.css" />
+<div class='container'>
+    <div class='row content'>
+        <div class='col-lg-12'></div>
+        <div class='col-lg-12'>
+            <h1 id="number-404">404</h1>
+            <h2>Oops, the page you're looking for does not exist.</h2>
+            <p>
+                You may want to head back to the homepage.
+            </p>
+            @Html.ActionLink("RETURN HOME", "Index", "Home", null, new { @class = "btn-return" })
+        </div>
+    </div>
+</div>
+<div class='bg-img'></div>

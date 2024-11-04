@@ -1,0 +1,10 @@
+﻿@model IEnumerable<BLL.Model.ModelStoreDtos.ListMenuDtos>
+
+<div class="list-menu col-12 col-xxl-2">
+    <div class="d-block bg-white px-3 px-xxl-2">
+        @foreach (var item in Model)
+        {
+            <span type="button" class="menu-store w-100" MenuID="@item.Id">@item.Name</span>
+        }
+    </div>
+</div>

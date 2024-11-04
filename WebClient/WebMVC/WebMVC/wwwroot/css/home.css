@@ -1,0 +1,317 @@
+﻿* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+.main-home {
+    width: 100%;
+    height: 100%;
+    background-image: url(/imgWeb/main-banner.jpg);
+    background-size: cover;
+    background-attachment: fixed;
+    position: relative;
+}
+    .main-home::-webkit-scrollbar {
+        display: none;
+    }
+
+.main-content {
+    display: flex;
+    position: relative;
+}
+
+
+.home-option {
+    color: white;
+    height: 100%;
+    position: sticky;
+    top: 30%;
+    padding-right: 50px;
+}
+
+#home-option-title {
+    margin: 0;
+    font-size: 24px;
+}
+
+#home-option-title-down {
+    font-size: 14px;
+}
+
+#home-option-input {
+    width: 100%;
+}
+
+#home-input {
+    width: 60%;
+    padding: 10px;
+    outline: none;
+    border-radius: 10px;
+    margin-bottom: 20px;
+}
+
+.home-listoption .option {
+    margin: 5px 10px 10px 0;
+    font-size: 16px;
+    color: #fff;
+    padding: 7px 21px;
+    border-radius: 6px;
+    border: 1px solid;
+    display: inline-block;
+}
+
+.font18 {
+    font-size: 18px;
+}
+
+.home-option-listapp {
+    display: flex;
+}
+
+.home-option-app > a > img {
+    margin: 10px;
+    height: 51px;
+    width: 165px;
+}
+
+.home-listfood {
+    padding-top: 100px;
+    padding-bottom: 100px;
+    right : 0;
+}
+
+
+.list-home-store {
+    margin-bottom: 50px;
+    background-color: #fff;
+    border-radius: 10px;
+    position: relative;
+}
+
+.home-store-title {
+    display: flex;
+    padding-top: 12px;
+    justify-content: space-between;
+}
+
+.home-store-preferential {
+    padding : 12px;
+    color: #000000;
+}
+
+    .home-store-preferential:hover {
+        color: #000000;
+    }
+
+#title-preferential {
+    margin: 0;
+}
+
+.home-store-title a {
+    text-decoration: none;
+}
+
+#home-store {
+    border: 1px solid #d7d7d7;
+    border-radius: 5px;
+}
+    #home-store:hover {
+        box-shadow: 4px 4px 4px #ccc;
+    }
+
+    #home-store img {
+        width: 100%;
+    }
+
+#name-store {
+    color: #252525;
+    font-size:14px;
+    margin: 0;
+    padding: 0 5px 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#address-store {
+    margin: 0;
+    font-size: 12px;
+    padding: 0 5px 0 5px;
+    color: #959595;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#promotion-store {
+    margin: 0;
+    font-size: 1rem;
+    padding: 0 5px 0 5px;
+    border-top: 1px solid #d7d7d7;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#select-more-preferential {
+    color: #0288d1;
+    text-align: center;
+    padding-bottom: 12px;
+}
+
+.home-store-collection{
+    padding:12px;
+}
+
+#home-collection {
+    border-radius: 10px;
+    border: 1px solid #d7d7d7;
+}
+    #home-collection:hover {
+        box-shadow: 4px 4px 4px #ccc;
+    }
+
+    #home-collection img {
+        width: 100%;
+        border-radius: 5px;
+    }
+
+#name-collection {
+    color: #252525;
+    font-size: 14px;
+    margin: 0;
+    padding: 0 5px 0 5px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#location-collection {
+    margin: 0;
+    font-size: 12px;
+    padding: 0 5px 0 5px;
+    color: #579be9;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+/*.store-default-list {
+    display: none;
+}*/
+
+.store-default {
+    display: flex;
+    margin-bottom: 10px;
+    border: 1px solid #d7d7d7;
+}
+
+.store-default-list img {
+    width: 120px;
+    margin-right: 15px;
+}
+
+#info-store {
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    padding: 10px;
+}
+
+#name-store-default {
+    margin: 0;
+    font-size: 16px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#address-store-default {
+    margin: 0;
+    font-size: 13px;
+    color: #959595;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#price-store-default {
+    margin: 0;
+}
+
+#promotion-store-default {
+    margin: 0;
+    font-size: 14px;
+    color: #187caa;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+#select-more-default {
+    color: #0288d1;
+    text-align: center;
+    padding-bottom: 10px;
+}
+.main-bot {
+    padding-top: 50px;
+    background-color: #f2f2f2;
+}
+
+.main-bot-content {
+    margin-bottom : 50px;
+    background-color: white;
+}
+#img-bot-content-first{
+    width: 80%;
+}
+#img-bot-content-second {
+    width: 50%;
+}
+
+
+@media screen and (max-width : 1024px) {
+    .home-listfood{
+        padding: 50px 0;
+    }
+    .store-img > img {
+        width: 100%;
+    }
+    #name-store-default {
+        font-size: 14px;
+    }
+    #address-store-default{
+        font-size : 10px;
+    }
+    #promotion-store-default {
+        font-size: 12px;
+    }
+
+    .home-option{
+        padding: 0;
+        padding-top: 50px;
+        position: relative;
+    }
+    #home-option-title {
+        text-align: center;
+        font-size: 21px;
+        margin-bottom: 10px;
+    }
+
+    .store-default-list img{
+        margin-right: 0;
+    }
+
+    #select-more-preferential {
+        font-size: 16px;
+        padding-bottom: 10px;
+    }
+    #select-more-menubot {
+        font-size: 16px;
+        padding-bottom: 10px;
+    }
+    #img-bot-content-first {
+        width: 100%;
+    }
+}

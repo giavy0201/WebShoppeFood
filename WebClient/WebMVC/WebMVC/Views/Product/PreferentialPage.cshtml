@@ -1,0 +1,42 @@
+﻿@model IEnumerable<BLL.Model.ModelStoreDtos.StoreDtos>
+
+@{
+    ViewData["Title"] = "Danh Sách Ưu Đãi";
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+<div class="main-content">
+    <div class="container preferential-content">
+        <div id="preferential-title">
+            <h1>Danh Sách Ưu Đãi</h1>
+        </div>
+        <div class="preferential-option">
+            <div class="preferential-option-left">
+                <span id="preferential-option-area" type="button">Khu Vực</span>
+                <div class="preferential-option-left-distrist">
+                    <div class="option-list-district row">
+                        @* <div class="col-3"><input type="checkbox"><span class="option-list-distrist">Quận 1</span></div> *@
+                    </div>
+                </div>
+            </div>
+
+@*             <div class="preferential-option-right">
+                <select name="preferential-option-select">
+                    <option value="-1">Tất Cả</option>
+                    <option value="">Giảm Nhiều Nhất</option>
+                    <option value="">Mới Nhất</option>
+                    <option value="">Giảm Nhiều Nhất</option>
+                    <option value="">Giảm Nhiều Nhất</option>
+                </select>
+            </div> *@
+        </div>
+        <div class="preferential-list-store">
+            <div class="list-store-preferentialPage row">
+                @* list store  *@
+            </div>
+        </div>
+        <ul class="pagination">
+            <li></li>
+        </ul>
+    </div>
+</div>
+<script src="~/js/PreferentialPage.js" asp-append-version="true"></script>

@@ -1,0 +1,25 @@
+﻿@using BLL.IService
+@using BLL.Model.ModelRequest;
+@inject IHttpContextAccessor httpcontext
+@inject IConfiguration Configuration
+@foreach (var item in Model)
+{
+    var service = httpcontext.HttpContext.RequestServices.GetService<IStoreService>();
+    var reqStore = new ReqListStoreOfCollec
+            {
+                CollectionID = item.Id,
+                NumberOfItem = 0,
+                PageIndex = 0,
+            };
+    var listStore = await service.StoreByCollection(reqStore);
+    //html
+    <a href="@Url.Action("DetailCollection", "Collection", new { CollectionID = item.Id})" class="home-store-collection col-6 col-xxl-4" style="color : black" type="button">
+        <div id="home-collection">
+            <img src="@Configuration["https:pathCollection"]/@item.Image" alt="">
+            <div class="py-2 px-1">
+                <p id="name-collection" title="@item.Name"><b>@item.Name</b></p>
+                <p id="location-collection">@listStore.Data.Count() Địa Điểm</p>
+            </div>
+        </div>
+    </a>
+}
